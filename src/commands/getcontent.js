@@ -42,7 +42,10 @@ export function registerGetcontent(program) {
           console.log(`  Platform: ${platform.name}  Parser: ${opts.parser}`);
 
           const article = await platform.fetch(url, { headless: opts.headless });
-          const markdown = parser.toMarkdown(article.bodyHtml, { title: article.title });
+          const markdown = parser.toMarkdown(article.bodyHtml, {
+            title: article.title,
+            extraRules: platform.turndownRules ?? [],
+          });
           const saved = await saveArticle({
             platform: platform.name,
             url,

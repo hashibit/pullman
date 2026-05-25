@@ -13,6 +13,25 @@ import * as cheerio from "cheerio";
 export const wechatPlatform = {
   name: "wechat",
 
+  turndownRules: [
+    // WeChat often marks bold via inline style instead of <strong>
+    {
+      name: "wechatBold",
+      filter: (node) =>
+        node.nodeName === "SPAN" &&
+        (node.style?.fontWeight === "bold" ||
+          node.style?.fontWeight === "700"),
+      replacement: (content) => `**${content}**`,
+    },
+    // Strip WeChat's inline image placeholders that carry no text content
+    {
+      name: "dropEmptySpans",
+      filter: (node) =>
+        node.nodeName === "SPAN" && node.textContent.trim() === "",
+      replacement: () => "",
+    },
+  ],
+
   match(url) {
     return url.includes("mp.weixin.qq.com");
   },
