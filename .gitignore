@@ -1,0 +1,13 @@
+# Dependencies
+node_modules/
+
+# Scraped data
+getweb-data/
+
+# Scratch files from development
+*.html
+!tests/
+
+# Lock files (keep one, ignore the other)
+bun.lock
+.claude
