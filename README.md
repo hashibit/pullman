@@ -1,4 +1,4 @@
-# getweb
+# pullman
 
 A CLI tool that fetches web articles and archives them as structured Markdown. Platform detection is automatic — add the URL, get back clean files organized by platform, author, and date.
 
@@ -15,9 +15,9 @@ pnpm build
 ## Usage
 
 ```bash
-pnpm getweb getcontent [urls...]          # one or more URLs
-pnpm getweb getcontent -f <file>          # file with one URL per line
-pnpm getweb getcontent -f <file> [urls…]  # both at once
+pnpm pullman getcontent [urls...]          # one or more URLs
+pnpm pullman getcontent -f <file>          # file with one URL per line
+pnpm pullman getcontent -f <file> [urls…]  # both at once
 ```
 
 **Options**
@@ -33,7 +33,7 @@ pnpm getweb getcontent -f <file> [urls…]  # both at once
 ### Single URL
 
 ```bash
-pnpm getweb getcontent "https://mp.weixin.qq.com/s/6vRyARziPz3iceYa3CP9iA"
+pnpm pullman getcontent "https://mp.weixin.qq.com/s/6vRyARziPz3iceYa3CP9iA"
 ```
 
 ### URL list file
@@ -46,7 +46,7 @@ https://mp.weixin.qq.com/s/6vRyARziPz3iceYa3CP9iA
 ```
 
 ```bash
-pnpm getweb getcontent -f tests/sample-input-url.txt
+pnpm pullman getcontent -f tests/sample-input-url.txt
 ```
 
 Console output:
@@ -57,7 +57,7 @@ Console output:
 Launching browser...
 Navigating to https://mp.weixin.qq.com/s/6vRyARziPz3iceYa3CP9iA
 Browser closed.
-  Saved: getweb-data/wechat/大锤沉思录/2026-05-22/罗马军团式的公司过期了，YC-提出了一种全新的公司形态
+  Saved: pullman-data/wechat/大锤沉思录/2026-05-22/罗马军团式的公司过期了，YC-提出了一种全新的公司形态
 ```
 
 When processing multiple URLs, a summary is printed at the end:
@@ -83,7 +83,7 @@ YC 现在的内部系统会在夜里偷偷给自己改代码。流程是这样�
 ## Output structure
 
 ```
-getweb-data/
+pullman-data/
 └── wechat/
     ├── index.json                  ← per-platform metadata index
     └── 大锤沉思录/
@@ -107,9 +107,9 @@ getweb-data/
       "date": "2026-05-22",
       "fetchedAt": "2026-05-24T23:32:32.741Z",
       "files": {
-        "rawHtml": "getweb-data/wechat/大锤沉思录/2026-05-22/.../raw.html",
-        "bodyHtml": "getweb-data/wechat/大锤沉思录/2026-05-22/.../body.html",
-        "markdown": "getweb-data/wechat/大锤沉思录/2026-05-22/.../*.md"
+        "rawHtml": "pullman-data/wechat/大锤沉思录/2026-05-22/.../raw.html",
+        "bodyHtml": "pullman-data/wechat/大锤沉思录/2026-05-22/.../body.html",
+        "markdown": "pullman-data/wechat/大锤沉思录/2026-05-22/.../*.md"
       }
     }
   ]

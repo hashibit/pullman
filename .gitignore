@@ -2,7 +2,7 @@
 node_modules/
 
 # Scraped data
-getweb-data/
+pullman-data/
 
 # Scratch files from development
 *.html

@@ -6,7 +6,7 @@ import {
 } from "node:fs";
 import { join } from "node:path";
 
-const DATA_ROOT = "getweb-data";
+const DATA_ROOT = "pullman-data";
 
 interface SaveArticleParams {
   platform: string;
@@ -48,7 +48,7 @@ interface PlatformIndex {
  * Saves all article artefacts and updates the platform index.
  *
  * Directory layout:
- *   getweb-data/{platform}/{author}/{date}/{slug}/
+ *   pullman-data/{platform}/{author}/{date}/{slug}/
  *     raw.html
  *     body.html
  *     {slug}.md

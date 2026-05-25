@@ -1,4 +1,4 @@
-# getweb
+# pullman
 
 抓取微信公众号文章下来，整理成结构化的 Markdown。
 
@@ -15,9 +15,9 @@ pnpm build
 ## 用法
 
 ```bash
-pnpm getweb getcontent [urls...]           # 一个或多个 URL
-pnpm getweb getcontent -f <文件>           # 包含 URL 列表的文件
-pnpm getweb getcontent -f <文件> [urls…]   # 两者混用
+pnpm pullman getcontent [urls...]           # 一个或多个 URL
+pnpm pullman getcontent -f <文件>           # 包含 URL 列表的文件
+pnpm pullman getcontent -f <文件> [urls…]   # 两者混用
 ```
 
 **参数**
@@ -33,7 +33,7 @@ pnpm getweb getcontent -f <文件> [urls…]   # 两者混用
 ### 单个 URL
 
 ```bash
-pnpm getweb getcontent "https://mp.weixin.qq.com/s/6vRyARziPz3iceYa3CP9iA"
+pnpm pullman getcontent "https://mp.weixin.qq.com/s/6vRyARziPz3iceYa3CP9iA"
 ```
 
 ### URL 列表文件
@@ -46,7 +46,7 @@ https://mp.weixin.qq.com/s/6vRyARziPz3iceYa3CP9iA
 ```
 
 ```bash
-pnpm getweb getcontent -f tests/sample-input-url.txt
+pnpm pullman getcontent -f tests/sample-input-url.txt
 ```
 
 控制台输出：
@@ -57,7 +57,7 @@ pnpm getweb getcontent -f tests/sample-input-url.txt
 Launching browser...
 Navigating to https://mp.weixin.qq.com/s/6vRyARziPz3iceYa3CP9iA
 Browser closed.
-  Saved: getweb-data/wechat/大锤沉思录/2026-05-22/罗马军团式的公司过期了，YC-提出了一种全新的公司形态
+  Saved: pullman-data/wechat/大锤沉思录/2026-05-22/罗马军团式的公司过期了，YC-提出了一种全新的公司形态
 ```
 
 处理多个 URL 时，最后会打印汇总：
@@ -83,7 +83,7 @@ YC 现在的内部系统会在夜里偷偷给自己改代码。流程是这样�
 ## 存储结构
 
 ```
-getweb-data/
+pullman-data/
 └── wechat/
     ├── index.json                  ← 平台级元数据索引
     └── 大锤沉思录/
@@ -107,9 +107,9 @@ getweb-data/
       "date": "2026-05-22",
       "fetchedAt": "2026-05-24T23:32:32.741Z",
       "files": {
-        "rawHtml": "getweb-data/wechat/大锤沉思录/2026-05-22/.../raw.html",
-        "bodyHtml": "getweb-data/wechat/大锤沉思录/2026-05-22/.../body.html",
-        "markdown": "getweb-data/wechat/大锤沉思录/2026-05-22/.../*.md"
+        "rawHtml": "pullman-data/wechat/大锤沉思录/2026-05-22/.../raw.html",
+        "bodyHtml": "pullman-data/wechat/大锤沉思录/2026-05-22/.../body.html",
+        "markdown": "pullman-data/wechat/大锤沉思录/2026-05-22/.../*.md"
       }
     }
   ]

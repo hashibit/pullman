@@ -1,14 +1,14 @@
 {
-  "name": "getweb",
+  "name": "pullman",
   "version": "1.0.0",
   "type": "module",
   "bin": {
-    "getweb": "./dist/cli.js"
+    "pullman": "./dist/cli.js"
   },
   "scripts": {
     "build": "tsc",
     "dev": "tsx src/cli.ts",
-    "getweb": "node dist/cli.js"
+    "pullman": "node dist/cli.js"
   },
   "dependencies": {
     "cheerio": "^1.0.0",
