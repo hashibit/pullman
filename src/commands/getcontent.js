@@ -1,21 +1,22 @@
+import { readFileSync } from "node:fs";
 import { detectPlatform } from "../platforms/index.js";
 import { getParser } from "../parsers/index.js";
 import { saveArticle } from "../storage.js";
 
 export function registerGetcontent(program) {
   program
-    .command("getcontent <url>")
-    .description("Fetch a web article and save it as structured Markdown")
-    .option(
-      "-p, --parser <name>",
-      "Markdown parser to use (turndown)",
-      "turndown",
+    .command("getcontent [urls...]")
+    .description(
+      "Fetch web articles and save them as structured Markdown.\n" +
+        "Accepts one or more URLs as arguments, or a file of URLs via -f.",
     )
+    .option("-f, --file <path>", "File containing URLs, one per line")
+    .option("-p, --parser <name>", "Markdown parser to use (turndown)", "turndown")
     .option("--no-headless", "Show browser window (useful for debugging)")
-    .action(async (url, opts) => {
-      const platform = detectPlatform(url);
-      if (!platform) {
-        console.error(`No platform handler found for URL: ${url}`);
+    .action(async (urls, opts) => {
+      const allUrls = resolveUrls(urls, opts.file);
+      if (allUrls.length === 0) {
+        console.error("No URLs provided. Pass URLs as arguments or use -f <file>.");
         process.exit(1);
       }
 
@@ -25,28 +26,63 @@ export function registerGetcontent(program) {
         process.exit(1);
       }
 
-      console.log(`Platform: ${platform.name}`);
-      console.log(`Parser:   ${opts.parser}`);
+      let ok = 0;
+      let fail = 0;
 
-      const article = await platform.fetch(url, { headless: opts.headless });
-      const markdown = parser.toMarkdown(article.bodyHtml, {
-        title: article.title,
-      });
+      for (const url of allUrls) {
+        console.log(`\n[${ok + fail + 1}/${allUrls.length}] ${url}`);
+        try {
+          const platform = detectPlatform(url);
+          if (!platform) {
+            console.error(`  No platform handler for this URL, skipping.`);
+            fail++;
+            continue;
+          }
 
-      const saved = await saveArticle({
-        platform: platform.name,
-        url,
-        title: article.title,
-        author: article.author,
-        date: article.date,
-        rawHtml: article.rawHtml,
-        bodyHtml: article.bodyHtml,
-        markdown,
-      });
+          console.log(`  Platform: ${platform.name}  Parser: ${opts.parser}`);
 
-      console.log(`\nSaved to: ${saved.dir}`);
-      console.log(`  raw.html     ${saved.rawHtml}`);
-      console.log(`  body.html    ${saved.bodyHtml}`);
-      console.log(`  ${saved.markdownFile}`);
+          const article = await platform.fetch(url, { headless: opts.headless });
+          const markdown = parser.toMarkdown(article.bodyHtml, { title: article.title });
+          const saved = await saveArticle({
+            platform: platform.name,
+            url,
+            title: article.title,
+            author: article.author,
+            date: article.date,
+            rawHtml: article.rawHtml,
+            bodyHtml: article.bodyHtml,
+            markdown,
+          });
+
+          console.log(`  Saved: ${saved.dir}`);
+          ok++;
+        } catch (err) {
+          console.error(`  Error: ${err.message}`);
+          fail++;
+        }
+      }
+
+      if (allUrls.length > 1) {
+        console.log(`\nDone. ${ok} succeeded, ${fail} failed.`);
+      }
     });
+}
+
+function resolveUrls(argUrls, filePath) {
+  const urls = new Set();
+
+  for (const u of argUrls) {
+    const trimmed = u.trim();
+    if (trimmed) urls.add(trimmed);
+  }
+
+  if (filePath) {
+    const lines = readFileSync(filePath, "utf8").split("\n");
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (trimmed && !trimmed.startsWith("#")) urls.add(trimmed);
+    }
+  }
+
+  return [...urls];
 }

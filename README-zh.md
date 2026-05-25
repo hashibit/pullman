@@ -1,6 +1,6 @@
 # getweb
 
-一个 CLI 工具，将网页文章抓取下来，整理成结构化的 Markdown 存档。平台自动识别，给一个 URL，按平台 / 作者 / 日期分层保存。
+抓取微信公众号文章下来，整理成结构化的 Markdown。
 
 ## 环境要求
 
@@ -14,43 +14,55 @@ pnpm install
 ## 用法
 
 ```bash
-node src/cli.js getcontent <url>
+pnpm getweb getcontent [urls...]           # 一个或多个 URL
+pnpm getweb getcontent -f <文件>           # 包含 URL 列表的文件
+pnpm getweb getcontent -f <文件> [urls…]   # 两者混用
 ```
 
 **参数**
 
 | 参数 | 默认值 | 说明 |
 |------|--------|------|
+| `-f, --file <path>` | — | URL 列表文件，每行一个，`#` 开头为注释 |
 | `-p, --parser <name>` | `turndown` | 使用的 Markdown 转换库 |
 | `--no-headless` | — | 显示浏览器窗口（反风控调试用） |
 
 ## 示例
 
-输入（`tests/sample-input-url.txt`）：
+### 单个 URL
+
+```bash
+pnpm getweb getcontent "https://mp.weixin.qq.com/s/6vRyARziPz3iceYa3CP9iA"
+```
+
+### URL 列表文件
+
+`tests/sample-input-url.txt`：
 
 ```
+# 微信公众号文章
 https://mp.weixin.qq.com/s/6vRyARziPz3iceYa3CP9iA
 ```
 
-执行命令：
-
 ```bash
-node src/cli.js getcontent "https://mp.weixin.qq.com/s/6vRyARziPz3iceYa3CP9iA"
+pnpm getweb getcontent -f tests/sample-input-url.txt
 ```
 
 控制台输出：
 
 ```
-Platform: wechat
-Parser:   turndown
+[1/1] https://mp.weixin.qq.com/s/6vRyARziPz3iceYa3CP9iA
+  Platform: wechat  Parser: turndown
 Launching browser...
 Navigating to https://mp.weixin.qq.com/s/6vRyARziPz3iceYa3CP9iA
 Browser closed.
+  Saved: getweb-data/wechat/大锤沉思录/2026-05-22/罗马军团式的公司过期了，YC-提出了一种全新的公司形态
+```
 
-Saved to: getweb-data/wechat/大锤沉思录/2026-05-22/罗马军团式的公司过期了，YC-提出了一种全新的公司形态
-  raw.html     getweb-data/wechat/大锤沉思录/2026-05-22/.../raw.html
-  body.html    getweb-data/wechat/大锤沉思录/2026-05-22/.../body.html
-  getweb-data/wechat/大锤沉思录/2026-05-22/.../罗马军团式的公司过期了，YC-提出了一种全新的公司形态.md
+处理多个 URL 时，最后会打印汇总：
+
+```
+Done. 3 succeeded, 1 failed.
 ```
 
 Markdown 输出（`tests/sample-output.md`，节选）：

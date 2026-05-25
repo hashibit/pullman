@@ -14,43 +14,55 @@ pnpm install
 ## Usage
 
 ```bash
-node src/cli.js getcontent <url>
+pnpm getweb getcontent [urls...]          # one or more URLs
+pnpm getweb getcontent -f <file>          # file with one URL per line
+pnpm getweb getcontent -f <file> [urls…]  # both at once
 ```
 
 **Options**
 
 | Flag | Default | Description |
 |------|---------|-------------|
+| `-f, --file <path>` | — | File containing URLs, one per line (`#` lines are comments) |
 | `-p, --parser <name>` | `turndown` | Markdown parser to use |
 | `--no-headless` | — | Show the browser window (debug anti-bot issues) |
 
 ## Example
 
-Input (`tests/sample-input-url.txt`):
+### Single URL
+
+```bash
+pnpm getweb getcontent "https://mp.weixin.qq.com/s/6vRyARziPz3iceYa3CP9iA"
+```
+
+### URL list file
+
+`tests/sample-input-url.txt`:
 
 ```
+# WeChat articles
 https://mp.weixin.qq.com/s/6vRyARziPz3iceYa3CP9iA
 ```
 
-Command:
-
 ```bash
-node src/cli.js getcontent "https://mp.weixin.qq.com/s/6vRyARziPz3iceYa3CP9iA"
+pnpm getweb getcontent -f tests/sample-input-url.txt
 ```
 
 Console output:
 
 ```
-Platform: wechat
-Parser:   turndown
+[1/1] https://mp.weixin.qq.com/s/6vRyARziPz3iceYa3CP9iA
+  Platform: wechat  Parser: turndown
 Launching browser...
 Navigating to https://mp.weixin.qq.com/s/6vRyARziPz3iceYa3CP9iA
 Browser closed.
+  Saved: getweb-data/wechat/大锤沉思录/2026-05-22/罗马军团式的公司过期了，YC-提出了一种全新的公司形态
+```
 
-Saved to: getweb-data/wechat/大锤沉思录/2026-05-22/罗马军团式的公司过期了，YC-提出了一种全新的公司形态
-  raw.html     getweb-data/wechat/大锤沉思录/2026-05-22/.../raw.html
-  body.html    getweb-data/wechat/大锤沉思录/2026-05-22/.../body.html
-  getweb-data/wechat/大锤沉思录/2026-05-22/.../罗马军团式的公司过期了，YC-提出了一种全新的公司形态.md
+When processing multiple URLs, a summary is printed at the end:
+
+```
+Done. 3 succeeded, 1 failed.
 ```
 
 Markdown output (`tests/sample-output.md`, excerpt):

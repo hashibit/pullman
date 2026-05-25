@@ -6,7 +6,7 @@
     "getweb": "./src/cli.js"
   },
   "scripts": {
-    "getcontent": "node src/cli.js getcontent"
+    "getweb": "node src/cli.js"
   },
   "dependencies": {
     "cheerio": "^1.0.0",
