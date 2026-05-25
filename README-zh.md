@@ -9,6 +9,7 @@
 
 ```bash
 pnpm install
+pnpm build
 ```
 
 ## 用法
@@ -127,30 +128,32 @@ getweb-data/
 
 | 名称 | 包 | 说明 |
 |------|----|------|
-| `turndown` | [turndown](https://github.com/mixmark-io/turndown) | 默认。已针对微信行内 bold 样式和空 span 做定制规则。 |
+| `turndown` | [turndown](https://github.com/mixmark-io/turndown) | 默认。平台特定规则通过各平台 handler 的 `turndownRules` 注入。 |
 
 ## 扩展
 
-**新增平台** — 创建 `src/platforms/yourplatform.js`：
+**新增平台** — 创建 `src/platforms/yourplatform.ts`：
 
-```js
-export const yourPlatform = {
+```ts
+import type { Platform } from "./index.js";
+
+export const yourPlatform: Platform = {
   name: "yourplatform",
   match(url) { return url.includes("example.com"); },
-  async fetch(url, opts) { /* 返回 { title, author, date, rawHtml, bodyHtml } */ },
+  async fetch(url, opts) { /* 返回 { title, author, date, rawHtml, bodyHtml, url } */ },
   extract(rawHtml, url) { /* 纯 cheerio/正则提取，无需浏览器 */ },
 };
 ```
 
-在 `src/platforms/index.js` 里注册。
+在 `src/platforms/index.ts` 里注册。
 
-**新增解析库** — 创建 `src/parsers/yourparser.js`：
+**新增解析库** — 创建 `src/parsers/yourparser.ts`：
 
-```js
+```ts
 export const yourParser = {
   name: "yourparser",
-  toMarkdown(html, { title }) { /* 返回 markdown 字符串 */ },
+  toMarkdown(html: string, { title = "" } = {}): string { /* 返回 markdown 字符串 */ },
 };
 ```
 
-在 `src/parsers/index.js` 里注册，然后用 `--parser yourparser` 切换。
+在 `src/parsers/index.ts` 里注册，然后用 `--parser yourparser` 切换。

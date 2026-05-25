@@ -31,7 +31,7 @@ export const wechatPlatform: Platform = {
         node.nodeName === "SPAN" && node.textContent.trim() === "",
       replacement: () => "",
     },
-  ] satisfies TurndownRule[],
+  ],
 
   match(url) {
     return url.includes("mp.weixin.qq.com");
