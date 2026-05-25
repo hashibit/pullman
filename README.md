@@ -9,6 +9,7 @@ A CLI tool that fetches web articles and archives them as structured Markdown. P
 
 ```bash
 pnpm install
+pnpm build
 ```
 
 ## Usage
@@ -127,30 +128,32 @@ Re-fetching the same URL updates the existing entry rather than creating a dupli
 
 | Name | Package | Notes |
 |------|---------|-------|
-| `turndown` | [turndown](https://github.com/mixmark-io/turndown) | Default. Handles WeChat inline-style bold and empty spans. |
+| `turndown` | [turndown](https://github.com/mixmark-io/turndown) | Default. Platform-specific rules are injected via `turndownRules` on each platform handler. |
 
 ## Extending
 
-**Add a platform** — create `src/platforms/yourplatform.js`:
+**Add a platform** — create `src/platforms/yourplatform.ts`:
 
-```js
-export const yourPlatform = {
+```ts
+import type { Platform } from "./index.js";
+
+export const yourPlatform: Platform = {
   name: "yourplatform",
   match(url) { return url.includes("example.com"); },
-  async fetch(url, opts) { /* return { title, author, date, rawHtml, bodyHtml } */ },
+  async fetch(url, opts) { /* return { title, author, date, rawHtml, bodyHtml, url } */ },
   extract(rawHtml, url) { /* pure cheerio/regex extraction */ },
 };
 ```
 
-Register it in `src/platforms/index.js`.
+Register it in `src/platforms/index.ts`.
 
-**Add a parser** — create `src/parsers/yourparser.js`:
+**Add a parser** — create `src/parsers/yourparser.ts`:
 
-```js
+```ts
 export const yourParser = {
   name: "yourparser",
-  toMarkdown(html, { title }) { /* return markdown string */ },
+  toMarkdown(html: string, { title = "" } = {}): string { /* return markdown string */ },
 };
 ```
 
-Register it in `src/parsers/index.js`, then use `--parser yourparser`.
+Register it in `src/parsers/index.ts`, then use `--parser yourparser`.

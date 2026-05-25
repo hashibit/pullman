@@ -11,3 +11,4 @@ getweb-data/
 # Lock files (keep one, ignore the other)
 bun.lock
 .claude
+dist

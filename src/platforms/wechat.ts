@@ -9,8 +9,9 @@
  */
 import puppeteer from "puppeteer";
 import * as cheerio from "cheerio";
+import type { Article, Platform, TurndownRule } from "./index.js";
 
-export const wechatPlatform = {
+export const wechatPlatform: Platform = {
   name: "wechat",
 
   turndownRules: [
@@ -30,7 +31,7 @@ export const wechatPlatform = {
         node.nodeName === "SPAN" && node.textContent.trim() === "",
       replacement: () => "",
     },
-  ],
+  ] satisfies TurndownRule[],
 
   match(url) {
     return url.includes("mp.weixin.qq.com");
@@ -49,13 +50,13 @@ export const wechatPlatform = {
       ],
     });
 
-    let rawHtml;
+    let rawHtml: string;
     try {
       const page = await browser.newPage();
 
       await page.evaluateOnNewDocument(() => {
         Object.defineProperty(navigator, "webdriver", { get: () => undefined });
-        window.chrome = { runtime: {} };
+        (window as Window & { chrome?: object }).chrome = { runtime: {} };
       });
 
       await page.setViewport({ width: 1440, height: 900 });
@@ -87,7 +88,7 @@ export const wechatPlatform = {
    * Pure extraction from raw HTML string — no browser needed.
    * Exported separately so it can be unit-tested without launching Puppeteer.
    */
-  extract(rawHtml, url = "") {
+  extract(rawHtml, url = ""): Article {
     const $ = cheerio.load(rawHtml);
 
     const title =
@@ -95,18 +96,15 @@ export const wechatPlatform = {
       $(".rich_media_title").text().trim() ||
       "Untitled";
 
-    // Account name / author
     const author =
       $("#js_name").text().trim() ||
       $(".account_nickname_inner").text().trim() ||
       "unknown";
 
-    // Publish date — WeChat renders it as "2024-01-15" in #publish_time
     const rawDate =
       $("#publish_time").text().trim() ||
       $(".rich_media_meta_list .rich_media_meta_primary").text().trim() ||
       "";
-    // Normalise to YYYY-MM-DD; fall back to today if unparseable
     const date = parseWechatDate(rawDate);
 
     const bodyHtml = $("#js_content").html() || "";
@@ -118,16 +116,14 @@ export const wechatPlatform = {
   },
 };
 
-function parseWechatDate(raw) {
+function parseWechatDate(raw: string): string {
   if (!raw) return todayIso();
-  // Already YYYY-MM-DD
   if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) return raw;
-  // "2024年01月15日"
   const m = raw.match(/(\d{4})[年-](\d{1,2})[月-](\d{1,2})/);
   if (m) return `${m[1]}-${m[2].padStart(2, "0")}-${m[3].padStart(2, "0")}`;
   return todayIso();
 }
 
-function todayIso() {
+function todayIso(): string {
   return new Date().toISOString().slice(0, 10);
 }

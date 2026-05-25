@@ -3,15 +3,22 @@
   "version": "1.0.0",
   "type": "module",
   "bin": {
-    "getweb": "./src/cli.js"
+    "getweb": "./dist/cli.js"
   },
   "scripts": {
-    "getweb": "node src/cli.js"
+    "build": "tsc",
+    "dev": "tsx src/cli.ts",
+    "getweb": "node dist/cli.js"
   },
   "dependencies": {
     "cheerio": "^1.0.0",
     "commander": "^12.1.0",
     "puppeteer": "^24.0.0",
     "turndown": "^7.2.4"
+  },
+  "devDependencies": {
+    "@types/turndown": "^5.0.6",
+    "tsx": "^4.22.3",
+    "typescript": "^6.0.3"
   }
 }

@@ -8,6 +8,42 @@ import { join } from "node:path";
 
 const DATA_ROOT = "getweb-data";
 
+interface SaveArticleParams {
+  platform: string;
+  url: string;
+  title: string;
+  author: string;
+  date: string;
+  rawHtml: string;
+  bodyHtml: string;
+  markdown: string;
+}
+
+interface SaveArticleResult {
+  dir: string;
+  rawHtml: string;
+  bodyHtml: string;
+  markdownFile: string;
+}
+
+interface IndexEntry {
+  url: string;
+  title: string;
+  author: string;
+  date: string;
+  fetchedAt: string;
+  files: {
+    rawHtml: string;
+    bodyHtml: string;
+    markdown: string;
+  };
+}
+
+interface PlatformIndex {
+  platform: string;
+  articles: IndexEntry[];
+}
+
 /**
  * Saves all article artefacts and updates the platform index.
  *
@@ -16,8 +52,6 @@ const DATA_ROOT = "getweb-data";
  *     raw.html
  *     body.html
  *     {slug}.md
- *
- * @returns {{ dir, rawHtml, bodyHtml, markdownFile }}  relative paths
  */
 export async function saveArticle({
   platform,
@@ -28,7 +62,7 @@ export async function saveArticle({
   rawHtml,
   bodyHtml,
   markdown,
-}) {
+}: SaveArticleParams): Promise<SaveArticleResult> {
   const slug = toSlug(title);
   const authorSlug = toSlug(author);
   const dir = join(DATA_ROOT, platform, authorSlug, date, slug);
@@ -44,7 +78,7 @@ export async function saveArticle({
   writeFileSync(bodyPath, bodyHtml, "utf8");
   writeFileSync(mdPath, markdown, "utf8");
 
-  const entry = {
+  const entry: IndexEntry = {
     url,
     title,
     author,
@@ -62,22 +96,17 @@ export async function saveArticle({
   return { dir, rawHtml: rawPath, bodyHtml: bodyPath, markdownFile: mdPath };
 }
 
-// ---------------------------------------------------------------------------
-// Per-platform index.json
-// ---------------------------------------------------------------------------
-
-function updateIndex(platform, entry) {
+function updateIndex(platform: string, entry: IndexEntry): void {
   const indexPath = join(DATA_ROOT, platform, "index.json");
 
-  let index;
+  let index: PlatformIndex;
   if (existsSync(indexPath)) {
-    index = JSON.parse(readFileSync(indexPath, "utf8"));
+    index = JSON.parse(readFileSync(indexPath, "utf8")) as PlatformIndex;
   } else {
     mkdirSync(join(DATA_ROOT, platform), { recursive: true });
     index = { platform, articles: [] };
   }
 
-  // Deduplicate by URL — update in place if re-fetching
   const existing = index.articles.findIndex((a) => a.url === entry.url);
   if (existing >= 0) {
     index.articles[existing] = entry;
@@ -88,20 +117,18 @@ function updateIndex(platform, entry) {
   writeFileSync(indexPath, JSON.stringify(index, null, 2), "utf8");
 }
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
 /**
  * Converts an arbitrary string to a safe filesystem slug.
  * Keeps ASCII alphanumerics, CJK characters, and hyphens.
  * Collapses runs of separators and trims to 80 chars.
  */
-function toSlug(str) {
-  return str
-    .trim()
-    .replace(/[\s/\\:*?"<>|]+/g, "-")   // unsafe chars → hyphen
-    .replace(/-{2,}/g, "-")              // collapse runs
-    .replace(/^-|-$/g, "")              // strip leading/trailing
-    .slice(0, 80) || "untitled";
+function toSlug(str: string): string {
+  return (
+    str
+      .trim()
+      .replace(/[\s/\\:*?"<>|]+/g, "-")
+      .replace(/-{2,}/g, "-")
+      .replace(/^-|-$/g, "")
+      .slice(0, 80) || "untitled"
+  );
 }

@@ -1,9 +1,15 @@
 import TurndownService from "turndown";
+import type { TurndownRule } from "../platforms/index.js";
+
+interface ToMarkdownOptions {
+  title?: string;
+  extraRules?: TurndownRule[];
+}
 
 export const turndownParser = {
   name: "turndown",
 
-  toMarkdown(html, { title = "", extraRules = [] } = {}) {
+  toMarkdown(html: string, { title = "", extraRules = [] }: ToMarkdownOptions = {}): string {
     const svc = new TurndownService({
       headingStyle: "atx",
       hr: "---",

@@ -1,9 +1,10 @@
 import { readFileSync } from "node:fs";
+import type { Command } from "commander";
 import { detectPlatform } from "../platforms/index.js";
 import { getParser } from "../parsers/index.js";
 import { saveArticle } from "../storage.js";
 
-export function registerGetcontent(program) {
+export function registerGetcontent(program: Command): void {
   program
     .command("getcontent [urls...]")
     .description(
@@ -13,7 +14,7 @@ export function registerGetcontent(program) {
     .option("-f, --file <path>", "File containing URLs, one per line")
     .option("-p, --parser <name>", "Markdown parser to use (turndown)", "turndown")
     .option("--no-headless", "Show browser window (useful for debugging)")
-    .action(async (urls, opts) => {
+    .action(async (urls: string[], opts: { file?: string; parser: string; headless: boolean }) => {
       const allUrls = resolveUrls(urls, opts.file);
       if (allUrls.length === 0) {
         console.error("No URLs provided. Pass URLs as arguments or use -f <file>.");
@@ -60,7 +61,7 @@ export function registerGetcontent(program) {
           console.log(`  Saved: ${saved.dir}`);
           ok++;
         } catch (err) {
-          console.error(`  Error: ${err.message}`);
+          console.error(`  Error: ${(err as Error).message}`);
           fail++;
         }
       }
@@ -71,8 +72,8 @@ export function registerGetcontent(program) {
     });
 }
 
-function resolveUrls(argUrls, filePath) {
-  const urls = new Set();
+function resolveUrls(argUrls: string[], filePath?: string): string[] {
+  const urls = new Set<string>();
 
   for (const u of argUrls) {
     const trimmed = u.trim();
