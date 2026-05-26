@@ -1,4 +1,5 @@
 import { wechatPlatform } from "./wechat.js";
+import { redditPlatform } from "./reddit.js";
 
 export interface Article {
   title: string;
@@ -24,7 +25,7 @@ export interface Platform {
 }
 
 // Registry: ordered list; first match wins.
-const PLATFORMS: Platform[] = [wechatPlatform];
+const PLATFORMS: Platform[] = [wechatPlatform, redditPlatform];
 
 export function detectPlatform(url: string): Platform | null {
   for (const platform of PLATFORMS) {
