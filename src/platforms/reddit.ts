@@ -111,16 +111,17 @@ export const redditPlatform: Platform = {
       const bodyHtml = $(`#${bodyId}`).html()?.trim();
       if (!bodyHtml) return; // collapsed or removed
 
-      const indent = depth > 0 ? ` style="margin-left:${depth * 24}px"` : "";
       const scoreStr = score !== "?" ? ` · ${score} points` : "";
-      const meta = `<strong>${commentAuthor}</strong>${scoreStr}`;
+      const replyMark = depth > 0 ? "↳ " : "";
+      const meta = `<strong>${replyMark}${commentAuthor}</strong>${scoreStr}`;
 
-      commentParts.push(
-        `<div class="comment"${indent}>` +
-          `<p class="comment-meta">${meta}</p>` +
-          `<div class="comment-body">${bodyHtml}</div>` +
-          `</div>`
-      );
+      // Wrap in <blockquote> once per depth level so turndown emits ">" prefixes
+      const inner =
+        `<p class="comment-meta">${meta}</p>` +
+        `<div class="comment-body">${bodyHtml}</div>`;
+
+      const wrapped = wrapBlockquotes(inner, depth);
+      commentParts.push(wrapped);
     });
 
     const commentsHtml = commentParts.join("\n");
@@ -141,6 +142,15 @@ export const redditPlatform: Platform = {
     return { title, author, date, url, rawHtml, bodyHtml };
   },
 };
+
+/** Wrap HTML in `depth` levels of <blockquote> so turndown emits > prefixes. */
+function wrapBlockquotes(html: string, depth: number): string {
+  let result = html;
+  for (let i = 0; i < depth; i++) {
+    result = `<blockquote>${result}</blockquote>`;
+  }
+  return result;
+}
 
 function todayIso(): string {
   return new Date().toISOString().slice(0, 10);
