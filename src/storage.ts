@@ -126,7 +126,7 @@ function toSlug(str: string): string {
   return (
     str
       .trim()
-      .replace(/[\s/\\:*?"<>|]+/g, "-")
+      .replace(/[\s/\\:*?"<>|.]+/g, "-")
       .replace(/-{2,}/g, "-")
       .replace(/^-|-$/g, "")
       .slice(0, 80) || "untitled"

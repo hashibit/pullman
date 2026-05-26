@@ -88,7 +88,7 @@ export const redditPlatform: Platform = {
 
     const createdTimestamp = postEl.attr("created-timestamp") || "";
     const date = createdTimestamp ? createdTimestamp.slice(0, 10) : todayIso();
-    const postAge = createdTimestamp ? relativeTime(createdTimestamp) : "";
+    const postAge = createdTimestamp ? formatDate(createdTimestamp) : "";
 
     const commentCount = postEl.attr("comment-count") || "";
 
@@ -115,7 +115,7 @@ export const redditPlatform: Platform = {
         : "";
 
       const commentDatetime = c.find("time[datetime]").first().attr("datetime") || "";
-      const commentAge = commentDatetime ? relativeTime(commentDatetime) : "";
+      const commentAge = commentDatetime ? formatDate(commentDatetime) : "";
 
       // Body is in #t1_{id}-comment-rtjson-content
       const bodyId = `${thingId}-comment-rtjson-content`;
@@ -164,20 +164,12 @@ export const redditPlatform: Platform = {
   },
 };
 
-/** Compute a Reddit-style relative time string from an ISO timestamp. */
-function relativeTime(iso: string): string {
-  const diffMs = Date.now() - new Date(iso).getTime();
-  const minutes = Math.floor(diffMs / 60_000);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
-  const months = Math.floor(days / 30);
-  const years = Math.floor(days / 365);
-  if (years >= 1) return `${years}y ago`;
-  if (months >= 1) return `${months}mo ago`;
-  if (days >= 1) return `${days}d ago`;
-  if (hours >= 1) return `${hours}h ago`;
-  if (minutes >= 1) return `${minutes}m ago`;
-  return "just now";
+/** Format an ISO timestamp as "YYYY-MM-DD HH:mm UTC". */
+function formatDate(iso: string): string {
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return "";
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())} ${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())} UTC`;
 }
 
 /** Wrap HTML in `depth` levels of <blockquote> so turndown emits > prefixes. */
