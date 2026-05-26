@@ -83,9 +83,12 @@ export const redditPlatform: Platform = {
       "Untitled";
 
     const author = postEl.attr("author") || "unknown";
+    const authorHref = postEl.find(`a[href*="/user/${author}"]`).first().attr("href") || "";
+    const authorUrl = authorHref ? `https://www.reddit.com${authorHref.replace(/\/$/, "")}` : "";
 
-    const rawDate = postEl.attr("created-timestamp") || "";
-    const date = rawDate ? rawDate.slice(0, 10) : todayIso();
+    const createdTimestamp = postEl.attr("created-timestamp") || "";
+    const date = createdTimestamp ? createdTimestamp.slice(0, 10) : todayIso();
+    const postAge = createdTimestamp ? relativeTime(createdTimestamp) : "";
 
     const commentCount = postEl.attr("comment-count") || "";
 
@@ -106,14 +109,26 @@ export const redditPlatform: Platform = {
       const commentAuthor = c.attr("author") || "[deleted]";
       const score = c.attr("score") || "?";
 
+      const commentAuthorHref = c.find(`a[href*="/user/${commentAuthor}"]`).first().attr("href") || "";
+      const commentAuthorUrl = commentAuthorHref
+        ? `https://www.reddit.com${commentAuthorHref.replace(/\/$/, "")}`
+        : "";
+
+      const commentDatetime = c.find("time[datetime]").first().attr("datetime") || "";
+      const commentAge = commentDatetime ? relativeTime(commentDatetime) : "";
+
       // Body is in #t1_{id}-comment-rtjson-content
       const bodyId = `${thingId}-comment-rtjson-content`;
       const bodyHtml = $(`#${bodyId}`).html()?.trim();
       if (!bodyHtml) return; // collapsed or removed
 
-      const scoreStr = score !== "?" ? ` · ${score} points` : "";
+      const scoreStr = score !== "?" ? ` · ${score} pts` : "";
+      const ageStr = commentAge ? ` · ${commentAge}` : "";
       const replyMark = depth > 0 ? "↳ " : "";
-      const meta = `<strong>${replyMark}${commentAuthor}</strong>${scoreStr}`;
+      const authorDisplay = commentAuthorUrl
+        ? `<a href="${commentAuthorUrl}">${replyMark}${commentAuthor}</a>`
+        : `${replyMark}${commentAuthor}`;
+      const meta = `<strong>${authorDisplay}</strong>${ageStr}${scoreStr}`;
 
       // Wrap in <blockquote> once per depth level so turndown emits ">" prefixes
       const inner =
@@ -126,7 +141,13 @@ export const redditPlatform: Platform = {
 
     const commentsHtml = commentParts.join("\n");
 
+    const authorDisplay = authorUrl
+      ? `<a href="${authorUrl}">${author}</a>`
+      : author;
+    const postMeta = `<p><strong>${authorDisplay}</strong>${postAge ? ` · ${postAge}` : ""}</p>`;
+
     const bodyHtml = [
+      postMeta,
       postBodyHtml,
       commentsHtml
         ? `<hr/><h2>Comments${commentCount ? ` (${commentCount})` : ""}</h2>${commentsHtml}`
@@ -142,6 +163,22 @@ export const redditPlatform: Platform = {
     return { title, author, date, url, rawHtml, bodyHtml };
   },
 };
+
+/** Compute a Reddit-style relative time string from an ISO timestamp. */
+function relativeTime(iso: string): string {
+  const diffMs = Date.now() - new Date(iso).getTime();
+  const minutes = Math.floor(diffMs / 60_000);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+  const months = Math.floor(days / 30);
+  const years = Math.floor(days / 365);
+  if (years >= 1) return `${years}y ago`;
+  if (months >= 1) return `${months}mo ago`;
+  if (days >= 1) return `${days}d ago`;
+  if (hours >= 1) return `${hours}h ago`;
+  if (minutes >= 1) return `${minutes}m ago`;
+  return "just now";
+}
 
 /** Wrap HTML in `depth` levels of <blockquote> so turndown emits > prefixes. */
 function wrapBlockquotes(html: string, depth: number): string {
