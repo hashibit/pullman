@@ -126,6 +126,9 @@ function toSlug(str: string): string {
   return (
     str
       .trim()
+      // Strip emoji and other non-BMP / symbol unicode (keeps ASCII + CJK)
+      .replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, "")
+      .replace(/[^\p{L}\p{N}\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\s/\\:*?"<>|.@_-]/gu, "")
       .replace(/[\s/\\:*?"<>|.]+/g, "-")
       .replace(/-{2,}/g, "-")
       .replace(/^-|-$/g, "")

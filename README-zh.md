@@ -1,6 +1,6 @@
 # pullman
 
-抓取微信公众号文章下来，整理成结构化的 Markdown。
+抓取网络文章，整理成结构化的 Markdown。支持微信公众号和 Reddit 帖子（含评论）。
 
 ## 环境要求
 
@@ -66,19 +66,15 @@ Browser closed.
 Done. 3 succeeded, 1 failed.
 ```
 
-Markdown 输出（`tests/sample-output.md`，节选）：
+示例输出：[tests/sample-output-wechat.md](tests/sample-output-wechat.md)
 
-```markdown
-# 罗马军团式的公司过期了，YC 提出了一种全新的公司形态
+### Reddit
 
-YC 现在的内部系统会在夜里偷偷给自己改代码。流程是这样，第一天有 YC 员工向内部 agent
-发了一条 query，跑失败了。一个监督 agent (monitoring agent) 会读到这次失败，反推为什么
-，再决定要不要补一个新的确定性工具...
-
-### **罗马军团已经过期了**
-
-罗马军团的设计是嵌套层级，每一层有稳定的管辖宽度...
+```bash
+pnpm pullman getcontent "https://www.reddit.com/r/ClaudeAI/comments/1tq9qrr/opus_48_max_told_me_to_drive_to_the_car_wash/"
 ```
+
+示例输出：[tests/sample-output-reddit.md](tests/sample-output-reddit.md)
 
 ## 存储结构
 
@@ -123,6 +119,7 @@ pullman-data/
 | 平台 | 匹配规则 | 说明 |
 |------|----------|------|
 | 微信公众号 | `mp.weixin.qq.com` | CDP 读取 DOM + 立即关闭浏览器（降低被追踪风险） |
+| Reddit | `reddit.com/r/*/comments/*` | 抓取帖子正文及嵌套评论，按层级缩进输出；使用真实 Chrome 绕过反爬检测 |
 
 ## 支持的 Markdown 解析库
 

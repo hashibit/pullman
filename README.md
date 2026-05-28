@@ -1,6 +1,6 @@
 # pullman
 
-A CLI tool that fetches web articles and archives them as structured Markdown. Platform detection is automatic — add the URL, get back clean files organized by platform, author, and date.
+A CLI tool that fetches web articles and archives them as structured Markdown. Platform detection is automatic — add the URL, get back clean files organized by platform, author, and date. Supports WeChat Official Accounts and Reddit posts with comments.
 
 ## Requirements
 
@@ -66,19 +66,15 @@ When processing multiple URLs, a summary is printed at the end:
 Done. 3 succeeded, 1 failed.
 ```
 
-Markdown output (`tests/sample-output.md`, excerpt):
+Sample output: [tests/sample-output-wechat.md](tests/sample-output-wechat.md)
 
-```markdown
-# 罗马军团式的公司过期了，YC 提出了一种全新的公司形态
+### Reddit
 
-YC 现在的内部系统会在夜里偷偷给自己改代码。流程是这样，第一天有 YC 员工向内部 agent
-发了一条 query，跑失败了。一个监督 agent (monitoring agent) 会读到这次失败，反推为什么
-，再决定要不要补一个新的确定性工具...
-
-### **罗马军团已经过期了**
-
-罗马军团的设计是嵌套层级，每一层有稳定的管辖宽度...
+```bash
+pnpm pullman getcontent "https://www.reddit.com/r/ClaudeAI/comments/1tq9qrr/opus_48_max_told_me_to_drive_to_the_car_wash/"
 ```
+
+Sample output: [tests/sample-output-reddit.md](tests/sample-output-reddit.md)
 
 ## Output structure
 
@@ -123,6 +119,7 @@ Re-fetching the same URL updates the existing entry rather than creating a dupli
 | Platform | Match pattern | Notes |
 |----------|--------------|-------|
 | WeChat Official Accounts | `mp.weixin.qq.com` | CDP read + instant browser close to avoid tracking |
+| Reddit | `reddit.com/r/*/comments/*` | Fetches post body + threaded comments with depth-aware blockquote indentation; bypasses bot detection via real Chrome channel |
 
 ## Supported parsers
 

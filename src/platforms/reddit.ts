@@ -10,7 +10,7 @@
  *             recursive tree traversal needed.
  */
 
-import puppeteer from "puppeteer";
+import puppeteer, { type Page } from "puppeteer";
 import * as cheerio from "cheerio";
 import type { Article, Platform } from "./index.js";
 
@@ -53,6 +53,8 @@ export const redditPlatform: Platform = {
       await page.goto(url, { waitUntil: "networkidle2", timeout: 30000 });
       await page.waitForSelector("shreddit-post", { timeout: 15000 });
 
+      await loadAllComments(page);
+
       const client = await page.target().createCDPSession();
       await client.send("DOM.enable");
       const { root } = await client.send("DOM.getDocument", {
@@ -84,7 +86,7 @@ export const redditPlatform: Platform = {
 
     const author = postEl.attr("author") || "unknown";
     const authorHref = postEl.find(`a[href*="/user/${author}"]`).first().attr("href") || "";
-    const authorUrl = authorHref ? `https://www.reddit.com${authorHref.replace(/\/$/, "")}` : "";
+    const authorUrl = toAbsoluteUrl(authorHref);
 
     const createdTimestamp = postEl.attr("created-timestamp") || "";
     const date = createdTimestamp ? createdTimestamp.slice(0, 10) : todayIso();
@@ -110,9 +112,7 @@ export const redditPlatform: Platform = {
       const score = c.attr("score") || "?";
 
       const commentAuthorHref = c.find(`a[href*="/user/${commentAuthor}"]`).first().attr("href") || "";
-      const commentAuthorUrl = commentAuthorHref
-        ? `https://www.reddit.com${commentAuthorHref.replace(/\/$/, "")}`
-        : "";
+      const commentAuthorUrl = toAbsoluteUrl(commentAuthorHref);
 
       const commentDatetime = c.find("time[datetime]").first().attr("datetime") || "";
       const commentAge = commentDatetime ? formatDate(commentDatetime) : "";
@@ -163,6 +163,122 @@ export const redditPlatform: Platform = {
     return { title, author, date, url, rawHtml, bodyHtml };
   },
 };
+
+/**
+ * Scroll down in steps and click all "more replies" buttons until the comment
+ * count stabilises. Uses page.click() / ElementHandle.click() to generate real
+ * browser mouse events rather than bare JS .click() calls.
+ */
+async function loadAllComments(page: Page): Promise<void> {
+  const MAX_ROUNDS = 25;
+  let prevCount = 0;
+
+  for (let round = 0; round < MAX_ROUNDS; round++) {
+    await scrollToBottom(page);
+    await sleep(800);
+
+    // Click "查看更多评论" (load more top-level comments, action-triggered pagination)
+    const morePaged = await clickLoadMore(page);
+    if (morePaged > 0) {
+      await sleep(1200);
+      await scrollToBottom(page);
+      await sleep(600);
+    }
+
+    // Click "更多回复" / "另外 N 条回复" (expand nested reply threads)
+    const expanded = await expandReplies(page);
+    if (expanded > 0) {
+      await sleep(600);
+      await scrollToBottom(page);
+      await sleep(600);
+    }
+
+    const count: number = await page.evaluate(
+      () => document.querySelectorAll("shreddit-comment").length
+    );
+    console.log(`  [reddit] round ${round + 1}: ${count} comments loaded`);
+
+    if (count === prevCount && morePaged === 0 && expanded === 0) break;
+    prevCount = count;
+  }
+}
+
+/** Scroll to the bottom of the page in 600 px steps, waiting for lazy content. */
+async function scrollToBottom(page: Page): Promise<void> {
+  let prevHeight = 0;
+  while (true) {
+    const height: number = await page.evaluate(() => {
+      window.scrollBy(0, 600);
+      return document.body.scrollHeight;
+    });
+    await sleep(350);
+    if (height === prevHeight) break;
+    prevHeight = height;
+  }
+}
+
+/**
+ * Click the "查看更多评论" button that paginates top-level comments.
+ * Uses faceplate-partial[loading="action"][src*="more-comments"] — this button
+ * is NOT triggered by scrolling (IntersectionObserver), it requires an explicit click.
+ */
+async function clickLoadMore(page: Page): Promise<number> {
+  const selector =
+    'faceplate-partial[loading="action"][src*="more-comments"] button';
+  const buttons = await page.$$(selector);
+  let clicked = 0;
+  for (const btn of buttons) {
+    try {
+      await btn.evaluate((el) =>
+        (el as HTMLElement).scrollIntoView({ block: "center" })
+      );
+      await sleep(150);
+      await btn.click();
+      clicked++;
+      await sleep(300);
+    } catch {
+      // button detached after click
+    }
+  }
+  return clicked;
+}
+
+/**
+ * Click every visible "more replies" button.
+ * Selector targets the faceplate-partial lazy-load wrappers for child comments.
+ * aria-hidden buttons are duplicates used for layout — skip them.
+ */
+async function expandReplies(page: Page): Promise<number> {
+  const selector =
+    'faceplate-partial[slot^="children-"] button:not([aria-hidden="true"])';
+  const buttons = await page.$$(selector);
+  let clicked = 0;
+  for (const btn of buttons) {
+    try {
+      await btn.evaluate((el) =>
+        (el as HTMLElement).scrollIntoView({ block: "center" })
+      );
+      await sleep(120);
+      await btn.click();
+      clicked++;
+      await sleep(250);
+    } catch {
+      // button detached from DOM after a previous expansion — safe to ignore
+    }
+  }
+  return clicked;
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
+/** Convert a relative /path or already-absolute URL to a full reddit.com URL. */
+function toAbsoluteUrl(href: string): string {
+  if (!href) return "";
+  if (href.startsWith("http")) return href.replace(/\/$/, "");
+  return `https://www.reddit.com${href.replace(/\/$/, "")}`;
+}
 
 /** Format an ISO timestamp as "YYYY-MM-DD HH:mm UTC". */
 function formatDate(iso: string): string {
