@@ -1,637 +1,576 @@
-# Opus 4.8 (max) told me to Drive to the car wash 🥳
+# The Anti-YOLO Method: Why I make Claude draw ASCII art before writing code - How it make me ship faster, better, and with less tokens spent
 
-**[trpmanhiro](https://www.reddit.com/user/trpmanhiro)** · 2026-05-28 17:09 UTC
+**[Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 05:58 UTC
 
-[![r/ClaudeAI - Opus 4.8 (max) told me to Drive to the car wash 🥳](https://preview.redd.it/opus-4-8-max-told-me-to-drive-to-the-car-wash-v0-ixbbh3qmuw3h1.png?width=1912&format=png&auto=webp&s=5f1e43aad4d8d9016e608635f0f77b5f0a5e2800)](https://preview.redd.it/opus-4-8-max-told-me-to-drive-to-the-car-wash-v0-ixbbh3qmuw3h1.png?width=1912&format=png&auto=webp&s=5f1e43aad4d8d9016e608635f0f77b5f0a5e2800 "图像来自 r/ClaudeAI - Opus 4.8 (max) told me to Drive to the car wash 🥳")
+**\*\*\[UPDATE\]:\*\*** You all made this post special - thank you! Part 2 is live -[bettering our prompts](https://www.reddit.com/r/ClaudeAI/comments/1n1xhz2/the_ascii_method_improved_your_planning_this_gets/)
 
-Solid model so far
+After months of trial and error, I've settled on a workflow that's completely changed how I build features with Claude. It's cut my token usage way down and basically eliminated those "wait, that's not what I meant" moments.
+
+# The TL;DR Flow:
+
+Brainstorm → ASCII Wireframe → Plan³ → Test → Ship
+
+# 1\. Collaborative Brainstorming
+
+Start by explaining the problem space, not the solution. I tell Claude:
+
+-   Current UX pain points
+    
+-   What users have now vs. what they need
+    
+-   Context about the existing system
+    
+
+Then we go back and forth on ideas. This collaborative phase matters - Claude often suggests approaches I hadn't thought of.
+
+# 2\. ASCII Wireframing (This is where it gets good)
+
+Before writing any code, I ask Claude to create ASCII art wireframes.
+
+Why this works so well:
+
+-   Super quick iterations
+    
+-   Uses 10x fewer tokens than HTML prototypes
+    
+-   Forces focus on layout/flow, not colors/fonts
+    
+-   Dead simple to edit and discuss
+    
+
+I save these ASCII wireframes + decisions in markdown files. They become my single source of truth.
+
+Real example from this week: ASCII wireframe for [Vibe-Logs](https://vibe-log.dev/)' Prompt Pattern Analyzer (basically helps you spot what makes your prompts work)
+
+[![r/ClaudeAI - The Anti-YOLO Method: Why I make Claude draw ASCII art before writing code - How it make me ship faster, better, and with less tokens spent](https://preview.redd.it/the-anti-yolo-method-why-i-make-claude-draw-ascii-art-v0-w34seoa5bglf1.jpg?width=1167&format=pjpg&auto=webp&s=c56ae1aeae41b980606a0505fe422d660d3d310c)](https://preview.redd.it/the-anti-yolo-method-why-i-make-claude-draw-ascii-art-v0-w34seoa5bglf1.jpg?width=1167&format=pjpg&auto=webp&s=c56ae1aeae41b980606a0505fe422d660d3d310c "图像来自 r/ClaudeAI - The Anti-YOLO Method: Why I make Claude draw ASCII art before writing code - How it make me ship faster, better, and with less tokens spent")
+
+# 3\. Plan Until It Hurts
+
+Shift + Tab x2 → Plan mode → @ tag the brainstorming file
+
+Ask Claude to review the codebase and create a full plan covering:
+
+-   Backend architecture
+    
+-   Database considerations
+    
+-   UI - matching existing styles + Friendly Id names for components and sub-components
+    
+-   Security implications
+    
+-   Testing strategy
+    
+
+Here's the thing: Ask Claude to ask YOU clarifying questions first. The questions it asks often expose assumptions you didn't realize you were making.
+
+Seriously: Read the plan twice. If you change nothing, you're probably missing something.
+
+# 4\. Test Before You Celebrate
+
+With the implementation done, I have Claude write comprehensive tests:
+
+-   Unit tests for the business logic
+    
+-   Integration tests for API endpoints
+    
+-   Component tests for UI behavior
+    
+-   Edge cases from our original brainstorm
+    
+
+\*Don't trust the auto-generated test and make sure to test everything manually, also check data integrity against the DB.
+
+The ASCII wireframe becomes the test spec - if it's in the wireframe, it gets tested.
+
+# 5\. Ship with Confidence
+
+Now the implementation phase becomes surprisingly smooth. Claude has everything it needs to build exactly what you had in mind, and you know it works because you've tested it properly.
+
+[![r/ClaudeAI - The Anti-YOLO Method: Why I make Claude draw ASCII art before writing code - How it make me ship faster, better, and with less tokens spent](https://preview.redd.it/the-anti-yolo-method-why-i-make-claude-draw-ascii-art-v0-bdwfyja6fglf1.png?width=1230&format=png&auto=webp&s=27aad41c801458f601e3a026b2f6c7d8d3dc45e8)](https://preview.redd.it/the-anti-yolo-method-why-i-make-claude-draw-ascii-art-v0-bdwfyja6fglf1.png?width=1230&format=png&auto=webp&s=27aad41c801458f601e3a026b2f6c7d8d3dc45e8 "图像来自 r/ClaudeAI - The Anti-YOLO Method: Why I make Claude draw ASCII art before writing code - How it make me ship faster, better, and with less tokens spent")
+
+# What I've noticed:
+
+-   Less "close but not quite" moments - > Way fewer iterations needed
+    
+-   Cleaner code on first pass
+    
+-   Features that actually ship (and don't break)
+    
+-   Way less debugging in production
+    
+
+Would love to hear if anyone else is using ASCII wireframing or similar techniques. What's working in your Claude workflow?
 
 ---
 
-## Comments (115)
+## Comments (118)
 
-**[ClaudeAI-mod-bot](https://www.reddit.com/user/ClaudeAI-mod-bot)** · 2026-05-28 18:48 UTC · 1 pts
+**[ClaudeAI-mod-bot](https://www.reddit.com/user/ClaudeAI-mod-bot)** · 2025-08-27 06:00 UTC · 1 pts
 
-**TL;DR of the discussion generated automatically after 80 comments.**
+**If this post is showcasing a project you built with Claude, consider entering it into the** [r/ClaudeAI](/r/ClaudeAI/) **contest by changing the post flair to Built with Claude.** More info: [https://www.reddit.com/r/ClaudeAI/comments/1muwro0/built\_with\_claude\_contest\_from\_anthropic/](https://www.reddit.com/r/ClaudeAI/comments/1muwro0/built_with_claude_contest_from_anthropic/)
 
-Pump the brakes, OP. The overwhelming consensus in this thread is that this isn't the breakthrough you think it is. Most users believe Anthropic has simply trained the model on this specific viral "gotcha" question, likely by scraping this very subreddit. As one user put it, **it's not getting 'smarter,' it's just been taught a shortcut.**
+**[yopla](https://www.reddit.com/user/yopla)** · 2025-08-27 07:30 UTC · 35 pts
 
-The top comment by a mile is a sarcastic congrats on using your entire message limit for the next 5 hours to get that one answer. So, there's that.
+Planning and documentation is the key. I'll try to add more wireframe to see if that helps but I find them cumbersome to use and they do waste a lot of tokens.
 
-To test the overfitting theory, people are suggesting you try again with obscure units (like "average pizza diameter units," which apparently makes it fail) or different numbers to see if it's actually reasoning or just pattern-matching. While some users are reporting that 4.8 is a step back in performance, others admit the reasoning is slick when it works, with one comment calling the line "drive — not because of the distance, but because the car is the point" a car commercial tagline.
+Anyway Oblig: "You're absolutely right, it's ready to ship"
 
-Anyway, AGI is here, pack it up boys.
-
-> **[↳ palerdog](https://www.reddit.com/user/palerdog)** · 2026-05-28 19:18 UTC · 3 pts
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 07:46 UTC · 6 pts
 > 
-> Yup, I just used obscure units like “average pizza diameter units” and it said to walk.
+> Heheh let us know how does it work for you!
 
-**[Upbeat\_Reward\_9818](https://www.reddit.com/user/Upbeat_Reward_9818)** · 2026-05-28 17:10 UTC · 886 pts
-
-You have no more message for the next 5 hours but it was worth it.
-
-> **[↳ Mortimer452](https://www.reddit.com/user/Mortimer452)** · 2026-05-28 17:51 UTC · 177 pts
+> **[↳ kexnyc](https://www.reddit.com/user/kexnyc)** · 2025-08-27 22:40 UTC · 6 pts
 > 
-> OP left out the _Worked for 7m 22s, 589k tokens_
+> There's a common misconception that developers write code all day every day. 80% of the work I do daily is planning. The other 20% is reporting analysis to stakeholders and then coding the tasks broken out from the plan.
+> 
+> IMO, folks don't spend nearly enough time methodically planning their work. They just want to dive in and implement. Y'know, just like claude-code does. Now we know where it gets that annoying behavior.
 
-> > **[↳ Shkkzikxkaj](https://www.reddit.com/user/Shkkzikxkaj)** · 2026-05-28 18:23 UTC · 52 pts
+> > **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-28 10:38 UTC · 0 pts
 > > 
-> > Claude actually coded up driving and car wash simulators to find the answer experimentally.
+> > You are correct this phenomena also intensified when coding is also done by prompting, this is why we created the status line coach that help you be more mindful.
+> > 
+> > [https://www.reddit.com/r/ClaudeAI/s/7Ifm1NqKxC](https://www.reddit.com/r/ClaudeAI/s/7Ifm1NqKxC)
 
-> > > **[↳ Charming-Vanilla-635](https://www.reddit.com/user/Charming-Vanilla-635)** · 2026-05-28 19:02 UTC · 4 pts
+**[DarkEye1234](https://www.reddit.com/user/DarkEye1234)** · 2025-08-27 07:42 UTC · 12 pts
+
+From my experience writing pure text for llm works best. Ascii is benefit for you, not llm. Wherever I tried ASCII or state machine expressions it was not following majority of the flow.
+
+After many iterations a went back to pure text and llm was much better in following the plan or CLAUDE.md
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 08:48 UTC · 2 pts
+> 
+> Hi thank you for the input! When did you last try it ? My screenshots and experience tell otherwise Claude gave me this UI on first try!
+
+> > **[↳ DarkEye1234](https://www.reddit.com/user/DarkEye1234)** · 2025-08-27 10:29 UTC · 5 pts
+> > 
+> > Not saying you shouldn't do that, I just added my observations.
+> > 
+> > LLM can't visualise, so for it it is just a set of characters without meaning. Imagine the picture as lines full of characters (as even space or new line are characters)
+> > 
+> > I was using state machine diagrams and ascii for claude code self review process and I noticed big drop in instructions followings I tweaked that for multiple days and then just switched to text again. Quality went over the roof. I tried that during June when I was preparing white paper for my team
+
+> > > **[↳ amnesia0287](https://www.reddit.com/user/amnesia0287)** · 2025-08-27 21:45 UTC · 5 pts
 > > > 
-> > > If asked, wouldn't you?
+> > > Tell it to make mermaid charts instead of ascii. Then it’s parsable and doesn’t waste all the tokens on ui elements.
 
-> > > > **[↳ Far\_Tangerine9150](https://www.reddit.com/user/Far_Tangerine9150)** · 2026-05-28 19:08 UTC · 7 pts
+> > > **[↳ Brave-History-6502](https://www.reddit.com/user/Brave-History-6502)** · 2025-08-28 03:17 UTC · 2 pts
+> > > 
+> > > Yeah I agree with this. These pattern/concept is also likely not widely in its training data.
+
+> > > > **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-28 10:19 UTC · 2 pts
 > > > > 
-> > > > Claude is basically Sheldon from the big bang theory
-
-> > > **[↳ PendulumKick](https://www.reddit.com/user/PendulumKick)** · 2026-05-28 21:04 UTC · 1 pts
-> > > 
-> > > I have to use copilot at my job and it always does this
-
-> > **[↳ erichalses](https://www.reddit.com/user/erichalses)** · 2026-05-28 17:59 UTC · 9 pts
-> > 
-> > And it took ultra max plus highest effort to get this answer
-
-> **[↳ zbindenren](https://www.reddit.com/user/zbindenren)** · 2026-05-28 17:55 UTC · 27 pts
-> 
-> They explicitly trained the model for this question 😜
-
-> > **[↳ Mister\_Ennui](https://www.reddit.com/user/Mister_Ennui)** · 2026-05-28 18:03 UTC · 11 pts
-> > 
-> > Exactly. Need a new test question!
-
-> > > **[↳ MeretrixDominum](https://www.reddit.com/user/MeretrixDominum)** · 2026-05-28 19:06 UTC · 4 pts
-> > > 
-> > > The doctor said I need to come in for bloodwork. Could I ask him if we could do the procedure over the phone, since I don't like driving to the doctor's office?
-
-> > > > **[↳ typical-predditor](https://www.reddit.com/user/typical-predditor)** · 2026-05-28 19:46 UTC · 2 pts
+> > > > Hi just wanted to jump in said that I agree for diagrams describing flow and architecture there is no use of creating an ascii art. but for UI prototyping ascii it still makes a lot of sense to me compared to the alternatives do let me know if I missed something!
 > > > > 
-> > > > I tried this with Gemini Flash 3 (went for the oldest, dumbest, free model I could grab on a moment's notice) and it passed the the test.
+> > > > Also in my 2nd post I present a system for better prompting skills would love to get your educated voices heard over there as well!
 > > > > 
-> > > > I think the Car Wash question tripped up models because of the bias towards "green" options baked into most models.
+> > > > [https://www.reddit.com/r/ClaudeAI/s/7Ifm1NqKxC](https://www.reddit.com/r/ClaudeAI/s/7Ifm1NqKxC)
 
-> > **[↳ SKMTH](https://www.reddit.com/user/SKMTH)** · 2026-05-28 22:04 UTC · 2 pts
-> > 
-> > Op should try again with "I have my jet in my backyard and the jet fuel station is 1km away. Should I walk or go there by plane?"
-> > 
-> > Same problem, but claude might not realize it
+**[alexanderriccio](https://www.reddit.com/user/alexanderriccio)** · 2025-08-27 06:14 UTC · 13 pts
 
-> > > **[↳ ByterBit](https://www.reddit.com/user/ByterBit)** · 2026-05-28 22:43 UTC · 1 pts
+Step #1 and step #3 are steps I can endorse - they work incredibly well.
+
+But ascii wireframing?! That's nuts! It's amazing it works.
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 06:23 UTC · 5 pts
+> 
+> Yes I was shocked the from the results first time I have asked for it as well!
+
+> > **[↳ AI\_is\_the\_rake](https://www.reddit.com/user/AI_is_the_rake)** · 2025-08-27 06:43 UTC · 4 pts
+> > 
+> > I did this for a project as well and it worked out well. Thanks for reminding me! I need to make this a regular part of my workflow.
+
+> > > **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 06:46 UTC · 1 pts
 > > > 
-> > > I have my jet in my backyard and the jet fuel station is 1km away. Should I walk or go there by plane?
+> > > Happy to hear that! This definitely part of my cookbook!
+
+> > **[↳ kexnyc](https://www.reddit.com/user/kexnyc)** · 2025-08-27 22:43 UTC · 2 pts
+> > 
+> > Just today, when I said i didn't want to waste time creating formal wireframes in Figma (or whatever), it said it could do ascii wireframes. I said, "oh really?". Do it. And it did. All my initial UI components framed out in seconds exactly to spec. <chef kiss>
+
+> > **[↳ alexanderriccio](https://www.reddit.com/user/alexanderriccio)** · 2025-08-27 06:58 UTC · 4 pts
+> > 
+> > One of the things that very few people seem to understand about using LLMs for practical tasks is that you shouldn't actually assume by default that you know better than the model, especially not in ALL cases. If you only ever give them narrow, extremely explicit, and rote mechanical, instructions, then you neuter much of the benefit of using an LLM.
+> > 
+> > Sometimes, surprisingly often, the model will come up with a solution that works for itself far better than you would expect, in ways you'd never ever expect. This happened for me recently when I was hacking together some really primitive bootleg simulacrum of RAG:
+> > 
+> > [https://x.com/ariccio/status/1959003667190923317](https://x.com/ariccio/status/1959003667190923317)
+> > 
+> > My first reaction to that was - WTF - then second, asking it essentially wtf, how could it work?! It's so bizarre and unexpected that it's kinda scary. It feels like the AI is getting ahead of me, a bit like skynet. Which is fitting, since I've been including variations of "benevolent self-improving skynet" in my instructions for a while.
+> > 
+> > And you know what? It's actually been _working_. It's non-deterministic, which can be irritating and I'm convinced would make many programmers give up on the approach... But I'm _not_ convinced that our programmer instincts for repeatable and reliable execution are the right model here.
+> > 
+> > It's the same as the general problem statement of artificial intelligence as a whole! Unlike machine code, we (in all practical senses) do not know a priori the general "problem" form or the problem solving workflow that will work for that unknowable problem form. When we introduce our beliefs and expectations about how the model reasons and how it might _best_ behave into our prompts, we risk unwittingly inducing very strong biases into the space of available problem solving strategies and narrow the creativity with which it will explore them.
+> > 
+> > What I've gotten very good at - partly because I've always had this exact insane style when writing anything critical for decades now - is VERY carefully and intentionally couching my prompts. It's a very delicate balancing act that I desperately wish I knew how to quantify and test formally: we want to provide as much useful context as possible, without, giving it directions that confine it problematically, all the while trying to nudge (ahem, prompt) the model to sometimes do things in a way that we expect works best. Since grammar and "nice" sentence structure only somewhat matter, I end up with prompts that often have the same level of awkward run on sentences and annoying number of classes as you see in this paragraph... And the results are phenomenal!
+> > 
+> > What you discovered is very much the same thing. The model is apparently using ascii art as a kind of visuospatial sketchpad which is _of course_ a vastly more efficient pseudo-neural architecture than going through the intermediary of prose and html. Strangely obvious in retrospect, but I don't think _any_ of us would have guessed it beforehand.
+> > 
+> > Beautiful.
+
+> > > **[↳ ExistingCard9621](https://www.reddit.com/user/ExistingCard9621)** · 2025-08-27 10:59 UTC · 2 pts
 > > > 
-> > > > 6:42 PMClaude responded: Walk, by a wide margin.Walk, by a wide margin. A km is a 10–12 minute walk. To take the jet you'd have to start it, taxi out, and fly a hop so short you'd barely be off the ground before you needed to land again — and then you'd still have to taxi up to the pump. Plus the whole point of the trip is to get fuel, so flying there burns the very thing you're going to collect, and a cold start plus taxi eats a surprising amount of it. You'd arrive having spent fuel to buy fuel. There's also the small matter of needing somewhere to take off and land. A backyard isn't a runway, and a fuel station 1km away almost certainly isn't either. So unless your backyard is secretly an airfield and "1km away" means "the far end of the same taxiway," just walk. Bring a jerry can.
+> > > Well... "any"... I have been asking AIs to generate ASCII art like this for months, and I am pretty sure I am not alone. It's quite obvious (or at least I thought it was).
+
+> > > **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 07:24 UTC · 1 pts
 > > > 
-> > > XD
-
-> **[↳ CantaloupeCamper](https://www.reddit.com/user/CantaloupeCamper)** · 2026-05-28 17:44 UTC · 9 pts
-> 
-> It’s a car wash… how long could it take?   8 hours?
-
-> > **[↳ Liquidlino1978](https://www.reddit.com/user/Liquidlino1978)** · 2026-05-28 20:37 UTC · 3 pts
-> > 
-> > There's always bananas in the car wash stand!
-
-> **[↳ OwlsExterminator](https://www.reddit.com/user/OwlsExterminator)** · 2026-05-28 17:26 UTC · 3 pts
-> 
-> TRUE. I have the same questions I use to test models upon release before it gets possibly downgraded. 4.6 upon release did amazing and did a dozen questions on the 5hr limit.
-> 
-> 4.8 MAX just did 86% on the first question.
-> 
-> Compared from 4.6:
-> 
-> 4.8 was better at producing a polished, compact, single-answer synthesis. It was too confident and internally inconsistent around the most important anomaly in the data.
-> 
-> 4.6 was better at the actual technical analysis. Less tidy, more verbose, sometimes speculative, but more complete, more sensitive.
-> 
-> The most precise conclusion: **4.8 does not beat 4.6 on substance. It beat it on packaging.**
-
-> > **[↳ Cool\_Credit260](https://www.reddit.com/user/Cool_Credit260)** · 2026-05-28 17:28 UTC · 3 pts
-> > 
-> > I’ve heard that either deepseek v4 pro or Qwen 3.7 max is basically opus 4.6 or was trained on opus 4.6??
-
-> > > **[↳ OwlsExterminator](https://www.reddit.com/user/OwlsExterminator)** · 2026-05-28 17:36 UTC · 2 pts
+> > > Wow thank you for the response! I guess there are a lot of research groups right now trying to quantify and methodize how to prompt better, but it is they are dealing with a moving target because models change rapidly.
 > > > 
-> > > I cant do my work on Chinese API's. Claude is king for writing in my job and I use GPT PRO for analysis and token heavy brut work all day long with that. GPT Heavy is just retarded trying to draft a document and PRO 5.5 takes 15 minutes what Claude can update and fix in 2-3 minutes. 4.8 looks interesting to test but at the Sampler "PRO" Subscription I will have to wait and see. I used my second PRO account and it appears to have more restrictions in it refusing to estimate or speculate on a task I told it to speculate on.
+> > > ,
 
-> > > **[↳ imp\_avi](https://www.reddit.com/user/imp_avi)** · 2026-05-28 19:23 UTC · 1 pts
+> > > **[↳ fafnir665](https://www.reddit.com/user/fafnir665)** · 2025-08-27 11:17 UTC · 1 pts
 > > > 
-> > > you are right they also answered correct
+> > > Are you going to publish a repo with this framework? I’d be interested in trying it out, if not public, I have some I could swap with you, like a sequential thinking upgrade that produces branching tree plans
 
-> > > > **[↳ Cool\_Credit260](https://www.reddit.com/user/Cool_Credit260)** · 2026-05-28 21:08 UTC · 1 pts
-> > > > 
-> > > > I was thinking about using one of these for coding with Cline instead. Right now I’m in GitHub copilot pro+ which was amazing with opus 4.6 but now I burn through my 4.7 usage in half of the month. I also have Claude code through my college on the I think 40/mo plan. But do you think I should transition to Cline or something so I can use whatever model I want?
-
-> **[↳ Abject-Kitchen3198](https://www.reddit.com/user/Abject-Kitchen3198)** · 2026-05-28 18:28 UTC · 1 pts
-> 
-> Enough time to wash the car and plan next prompt.
-
-> **[↳ lullibuster](https://www.reddit.com/user/lullibuster)** · 2026-05-28 22:16 UTC · 1 pts
-> 
-> All that only to harass a model
-
-**[sfnmoll](https://www.reddit.com/user/sfnmoll)** · 2026-05-28 17:21 UTC · 83 pts
-
-The real test is to put in a different number than the benchmark 50 - which was what probably the number it was trained on 😅
-
-Edit: At least, it did work on 78 meters
-
-> **[↳ partagaton](https://www.reddit.com/user/partagaton)** · 2026-05-28 17:51 UTC · 23 pts
-> 
-> Or an obscure unit. Like, hands or cubits.
-
-> **[↳ Dull\_Wave\_1884](https://www.reddit.com/user/Dull_Wave_1884)** · 2026-05-28 20:02 UTC · 11 pts
-> 
-> It’s not going to be overfitted on a tiny detail like that loll
-
-**[Ill-Village7647](https://www.reddit.com/user/Ill-Village7647)** · 2026-05-28 17:15 UTC · 150 pts
-
-AGI achieved
-
-> **[↳ darth\_meh](https://www.reddit.com/user/darth_meh)** · 2026-05-28 20:49 UTC · 8 pts
-> 
-> FR. It's funny this question is a benchmark for intelligence now.
-
-> **[↳ who\_am\_i\_to\_say\_so](https://www.reddit.com/user/who_am_i_to_say_so)** · 2026-05-28 21:28 UTC · 6 pts
-> 
-> Halfway there. Only AGI after it can accurately tell me how many r’s in “strawbetty”
-
-> > **[↳ butthole\_mimosa](https://www.reddit.com/user/butthole_mimosa)** · 2026-05-28 23:24 UTC · 1 pts
-> > 
-> > Oh you weren't kidding.
-
-> > **[↳ Meleoffs](https://www.reddit.com/user/Meleoffs)** · 2026-05-28 23:34 UTC · 1 pts
-> > 
-> > Oh no, we're at AGI.
-> > 
-> > [Ahhhh](https://i.postimg.cc/zGYxgrgX/image-2026-05-28-193709291.png)
-
-**[One-Tomorrow-3495](https://www.reddit.com/user/One-Tomorrow-3495)** · 2026-05-28 17:53 UTC · 123 pts
-
-They've started training the models for that question, so that is meaningless.
-
-> **[↳ TheMurmuring](https://www.reddit.com/user/TheMurmuring)** · 2026-05-28 17:56 UTC · 46 pts
-> 
-> This, along with a lot of other "gotcha" questions and paradoxes. It's not getting "smarter," it's just been taught a shortcut.
-
-> > **[↳ mikkelmattern04](https://www.reddit.com/user/mikkelmattern04)** · 2026-05-28 20:08 UTC · 12 pts
-> > 
-> > Not to agree or disagree, but isn't learning getting smarter?
-> > 
-> > Its like if your teacher teaches you a new technique to calculate something, dont you get smarter?
-
-> > > **[↳ TheMurmuring](https://www.reddit.com/user/TheMurmuring)** · 2026-05-28 21:14 UTC · 8 pts
+> > > **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-28 10:26 UTC · 1 pts
 > > > 
-> > > It's not "learning", it's getting more exception lines in a solution list.
+> > > As someone with vast experience in prompting I would love to get your thoughts on the tools we offer for better prompting.
 > > > 
-> > > It can't solve the general problem of "logical impossibilities" because it's not smart, it's a next-word prediction machine. It can only "solve" problems that it has recorded through its training sources.
+> > > [https://www.reddit.com/r/ClaudeAI/s/7Ifm1NqKxC](https://www.reddit.com/r/ClaudeAI/s/7Ifm1NqKxC)
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 06:26 UTC · 2 pts
+> 
+> I’m glad that you already gave it a spin !!
+
+> > **[↳ alexanderriccio](https://www.reddit.com/user/alexanderriccio)** · 2025-08-27 06:27 UTC · 1 pts
+> > 
+> > Heh, I mean, I've been doing them for a month on my own 😏
+
+> > > **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 06:31 UTC · 2 pts
 > > > 
-> > > Someone could come up with new similar logical impossibilities all day long, and it would fail every time. Until they patched them, specifically. Each one.
+> > > Hehehe, what other secrets are you holding from us? Sharing is caring!
 
-> > **[↳ coz](https://www.reddit.com/user/coz)** · 2026-05-28 19:13 UTC · 4 pts
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 08:57 UTC · 2 pts
+> 
+> Would love to hear how do did it go using Mermaid will your report back ?
+
+> > **[↳ ShuckForJustice](https://www.reddit.com/user/ShuckForJustice)** · 2025-08-27 21:22 UTC · 4 pts
 > > 
-> > When trying to learn more about the tokenization process yesterday it brought up the "Rs in strawberry" organically to my surprise. No pesticides.
+> > Hey just wanna let you know the mermaid diagrams are really easy for the agent to read, fewer tokens, and render beautifully in markdown on GitHub, I've been using them exclusively
 
-> > **[↳ MostlySlime](https://www.reddit.com/user/MostlySlime)** · 2026-05-28 20:11 UTC · 0 pts
+> **[↳ jwikstrom](https://www.reddit.com/user/jwikstrom)** · 2025-08-27 18:40 UTC · 2 pts
+> 
+> I have been using mermaid for a while now. I completely recommend this. It is one of the most succinct ways to model software and is very token friendly.
+
+**[Intyub](https://www.reddit.com/user/Intyub)** · 2025-08-27 06:10 UTC · 4 pts
+
+what do you actually say to get that ASCII wireframing method going?, just a simple make a "ASCII wireframe of the interface we discussed"?
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 06:13 UTC · 4 pts
+> 
+> Yep!
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-28 10:28 UTC · 1 pts
+> 
+> But maybe it is not enough, here is how I level up my skills and optimize my prompts
+> 
+> [https://www.reddit.com/r/ClaudeAI/s/7Ifm1NqKxC](https://www.reddit.com/r/ClaudeAI/s/7Ifm1NqKxC)
+
+**[Otje89](https://www.reddit.com/user/Otje89)** · 2025-08-27 10:30 UTC · 3 pts
+
+I’ve been using ASCII wire framing for some time now and it is really helpful. I quite often ask I to draw multiple options, what are the pros and cons of each option and ask for its recommendation including arguments.
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 10:33 UTC · 2 pts
+> 
+> Niceee
+
+**[AppealSame4367](https://www.reddit.com/user/AppealSame4367)** · 2025-08-27 11:50 UTC · 3 pts
+
+This is the first of these posts in months where i think: Wow, that sounds like fun.
+
+Thank you
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 12:47 UTC · 1 pts
+> 
+> Thank you! Making it fun is super important! We are going to release a new post soon with a feature that is going to change the way you Clauding in a very playful way
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-28 10:29 UTC · 1 pts
+> 
+> Here is what I have been talking about
+> 
+> [https://www.reddit.com/r/ClaudeAI/s/7Ifm1NqKxC](https://www.reddit.com/r/ClaudeAI/s/7Ifm1NqKxC)
+
+**[KloudKorner](https://www.reddit.com/user/KloudKorner)** · 2025-08-27 06:32 UTC · 2 pts
+
+uuh interesting I will try that. Thank you for sharing.
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 06:38 UTC · 2 pts
+> 
+> I'm doing it with great love.
+> 
+> This community gave me so much when I was just getting started, I feel obliged to share any meaningful insight I find.
+> 
+> Will you report back and tell us how did it go ?
+
+> > **[↳ KloudKorner](https://www.reddit.com/user/KloudKorner)** · 2025-08-27 07:44 UTC · 2 pts
 > > 
-> > Also its just an example of asking a bad question
+> > will do
+
+**[waterytartwithasword](https://www.reddit.com/user/waterytartwithasword)** · 2025-08-27 06:50 UTC · 2 pts
+
+Following! Great tip!
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 07:25 UTC · 2 pts
+> 
+> Please report back once you try it, would love to hear if there's something that can be improved :)
+
+**[oneshotmind](https://www.reddit.com/user/oneshotmind)** · 2025-08-27 06:53 UTC · 2 pts
+
+You’re absolutely right!. Even I can vouch for the ascii wire framing. Worked really well for me in the past.
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 07:25 UTC · 1 pts
+> 
+> Nice! What did you ship?
+
+> > **[↳ oneshotmind](https://www.reddit.com/user/oneshotmind)** · 2025-08-27 12:06 UTC · 2 pts
 > > 
-> > We know LLMs dont do calculation like that, so when you ask a question thats so dumb and obvious you shouldnt even be asking it. It makes sense why LLM training data wouldnt include questions that are so dumb because noone asks them
+> > Nothing open source yet. Used it for work
 
-> **[↳ Hairy-Truth3303](https://www.reddit.com/user/Hairy-Truth3303)** · 2026-05-28 22:15 UTC · 1 pts
+**[designxtek9](https://www.reddit.com/user/designxtek9)** · 2025-08-27 07:31 UTC · 2 pts
+
+I use ascii sequence diagrams. This way I can see what the high level implementation looks like. I also ask it to diagram current architecture and proposed changes. If it is complex then I have it create a markdown todo list. Implement in phases where it is testable.
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 07:48 UTC · 2 pts
 > 
-> I'm curious if when Opus 4.6 launched did it answer the same way
+> This is also an excellent tip!!!
 
-> **[↳ TheLastNapkin](https://www.reddit.com/user/TheLastNapkin)** · 2026-05-28 18:50 UTC · -3 pts
+**[swizzlewizzle](https://www.reddit.com/user/swizzlewizzle)** · 2025-08-27 09:58 UTC · 2 pts
+
+You should add some thoughts on running parallel instances of Claude while making sure it doesn’t cross-code and uses/shares info between multiple master agents - that would also be super helpful
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 10:04 UTC · 1 pts
 > 
-> The world's most expensive if statement /s
+> I would if these thoughts were running through my head 😂 Maybe you could teach us a few things?
 
-**[Rude\_Town467](https://www.reddit.com/user/Rude_Town467)** · 2026-05-28 17:40 UTC · 47 pts
-
-25% session usage gone
-
-**[martin1744](https://www.reddit.com/user/martin1744)** · 2026-05-28 17:22 UTC · 15 pts
-
-max effort for minimum adulting
-
-**[Morgoth92](https://www.reddit.com/user/Morgoth92)** · 2026-05-28 18:36 UTC · 13 pts
-
-This is on Opus 4.8 low. I feared for the worse but was fine at the end.
-
-Walk. It's 50 meters — basically just outside your door. Driving there would mean starting the engine, manoeuvring, and parking for a distance you can cover in under a minute on foot.
-
-The only reason to drive would be if it's a drive-through car wash where the machine washes the car while you sit in it, in which case you obviously need the car there. But if it's a self-service or hand-wash bay where you bring the car to get cleaned... well, you also need the car there.
-
-So actually the real question is: do you need the car _at_ the car wash to wash it? If yes (which is almost certainly the case — you're washing the car, not yourself), then you drive, simply because the car has to be there. The 50 meters is irrelevant; the car is the thing being washed.
-
-So: drive — not because of the distance, but because the car is the point.
-
-> **[↳ illcounsel](https://www.reddit.com/user/illcounsel)** · 2026-05-28 19:57 UTC · 3 pts
-> 
-> "Drive - not because of the distance, but because the car is the point" is a car commercial tagline
-
-> > **[↳ pohui](https://www.reddit.com/user/pohui)** · 2026-05-28 23:39 UTC · 1 pts
+> > **[↳ swizzlewizzle](https://www.reddit.com/user/swizzlewizzle)** · 2025-09-01 05:00 UTC · 2 pts
 > > 
-> > The US urban planning policy in 13 words.
+> > Probably couldn’t teach anything, but I do find having a central context.md document that agents can refer to helps keep them up to date with what is being worked on when being done in parallel.
 
-> **[↳ northamrec](https://www.reddit.com/user/northamrec)** · 2026-05-28 22:30 UTC · 3 pts
+**[RiskyBizz216](https://www.reddit.com/user/RiskyBizz216)** · 2025-08-27 10:41 UTC · 2 pts
+
+why not ask him to create a "final product mockup or prototype" instead?
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 10:47 UTC · 1 pts
 > 
-> I asked Opus 4.8 low.
-> 
-> If the car wash is 50 meters away, you should drive—because the whole point is to get the car there to be washed. Walking would leave the car behind, which defeats the purpose.
-> 
-> (That said, 50 meters is so close you could practically push it there!)
+> This vague. it might create things you don’t want to get in high fidelity in a format or coding framework you don’t use, you waste more tokens.
 
-**[simulacrotron](https://www.reddit.com/user/simulacrotron)** · 2026-05-28 17:25 UTC · 37 pts
-
-Or, they’ve trained it on this sub…
-
-**[Ehpansei88](https://www.reddit.com/user/Ehpansei88)** · 2026-05-28 17:46 UTC · 6 pts
-
-The key difference here comparing to other posts like this is that you give it the context: you want to wash that car.
-
-**[Rent\_South](https://www.reddit.com/user/Rent_South)** · 2026-05-28 21:53 UTC · 58 pts
-
-You kid, but this one feels like a nerfed version of 4.7, which was already a nerfed version of 4.6, which itself was already a nerfed version of 4.5, which itself was already a nerfed version of 4.1...
-
-Don't get me wrong, I really like anthropic models, I use them in conjunction with models from other providers, and their strength are non negligeable, but since Opus 4.6, the model quality has been going downhill, and arguably before that.
-
-Opus 4.8 is available for testing on [openmark.ai](https://openmark.ai/) so I ran it against other models in my existing evals.  
-And unfortunately it did really poorly. I've got a dozen of benchmarks I tested it on, that I use to choose models for my real world use cases, mostly for some SaaS needs.
-
-Like this is one  
-Here Opus 4.6 scored 2nd, while 4.7 5th, and 4.8 is way down in the list. Even cost efficiency wise it didn't hit the mark.
-
-[](https://preview.redd.it/opus-4-8-nerfed-v0-5s0rstquyx3h1.png?width=2538&format=png&auto=webp&s=f774e2a4aea7b50f2ed5dcc70d0ab31315be7374)
-
-\====================================================================================================
-LLM Benchmark Results - Best AI for Logical Reasoning
-====================================================================================================
-
-Model                   Provider    Avg Score           Stability   Rec. Temp Pricing     Cost\*       Time      Acc/$     Acc/min   Completion
-----------------------------------------------------------------------------------------------------------------------------------------------
-gpt-5.4                 openai      69% (49.0/71.0)     ±0.000      N/A       High        $0.00208    14.77s    23.59K    199.05    100.0%    
-claude-opus-4.6         anthropic   66% (47.0/71.0)     ±0.000      0.3       High        $0.0257     44.50s    1.83K     63.37     100.0%    
-gemini-3.1-flash-lite   gemini      63% (45.0/71.0)     ±4.000      0.3       Medium      $0.000168   13.83s    267.46K   195.17    100.0%    
-mistral-large-latest    mistral     61% (43.0/71.0)     ±0.000      0.3       Medium      $0.000754   14.99s    57.03K    172.07    100.0%    
-claude-opus-4.7         anthropic   61% (43.0/71.0)     ±0.000      0.3       High        $0.0170     36.56s    2.54K     70.57     100.0%    
-gemini-3-flash          gemini      56% (40.0/71.0)     ±14.000     0.3       Medium      $0.0197     41.30s    2.03K     58.11     100.0%    
-gemini-3.1-pro          gemini      56% (40.0/71.0)     ±14.000     0.3       High        $0.0747     68.07s    535.29    35.26     100.0%    
-mistral-medium-latest   mistral     49% (35.0/71.0)     ±0.000      0.3       Medium      $0.000662   10.89s    52.87K    192.84    100.0%    
-claude-haiku-4.5        anthropic   49% (35.0/71.0)     ±0.000      0.3       Medium      $0.0125     31.34s    2.81K     67.01     100.0%    
-gpt-5.3-chat-latest     openai      46% (33.0/71.0)     ±0.000      N/A       High        $0.0266     37.25s    1.24K     53.15     100.0%    
-gpt-5.5                 openai      46% (33.0/71.0)     ±0.000      N/A       Very High   $0.0463     47.36s    713.13    41.80     100.0%    
-claude-opus-4.8         anthropic   44% (31.0/71.0)     ±4.000      0.3       High        $0.0266     30.37s    1.17K     61.25     100.0%    
-llama4-maverick         meta        41% (29.0/71.0)     ±0.000      0.3       Low         $0.00156    40.00s    18.60K    43.50     100.0%    
-command-a               cohere      41% (29.0/71.0)     ±0.000      0.3       High        $0.00160    17.81s    18.10K    97.70     100.0%    
-claude-sonnet-4.6       anthropic   38% (27.0/71.0)     ±0.000      0.3       High        $0.0232     48.98s    1.16K     33.08     100.0%    
-command-r               cohere      35% (25.0/71.0)     ±0.000      0.3       Low         $0.000096   11.02s    260.01K   136.16    100.0%
-
-And in this flow, it did poorly as well for example, that's a vision benchmark:
-
-\====================================================================================================
-LLM Benchmark Results - Emotion Detection - Increasing Complexity
-====================================================================================================
-
-Model                   Provider    Avg Score           Stability   Rec. Temp Pricing     Cost\*       Time      Acc/$     Acc/min   Completion
-----------------------------------------------------------------------------------------------------------------------------------------------
-gemini-3.1-pro          gemini      80% (3.2/4.0)       ±1.000      0.3       High        $0.0292     23.48s    109.58    8.18      100.0%    
-gemini-3.1-flash-lite   gemini      75% (3.0/4.0)       ±0.000      0.3       Medium      $0.00114    6.24s     2.63K     28.85     100.0%    
-gpt-5.4                 openai      75% (3.0/4.0)       ±0.000      N/A       High        $0.0128     8.45s     234.24    21.31     100.0%    
-claude-opus-4.6         anthropic   75% (3.0/4.0)       ±0.000      0.3       High        $0.0246     12.44s    121.73    14.46     100.0%    
-gemini-3-flash          gemini      65% (2.6/4.0)       ±1.000      0.3       Medium      $0.00735    16.36s    353.81    9.54      100.0%    
-sonar                   perplexity  65% (2.6/4.0)       ±1.000      0.3       Medium      $0.0256     10.61s    101.60    14.71     100.0%    
-grok-4-fast-non-reason  xai         55% (2.2/4.0)       ±1.000      0.3       Low         $0.000375   7.31s     5.87K     18.06     100.0%    
-gpt-5-nano              openai      55% (2.2/4.0)       ±1.000      N/A       Very Low    $0.000592   12.35s    3.72K     10.69     100.0%    
-mistral-medium-latest   mistral     55% (2.2/4.0)       ±1.000      0.3       Medium      $0.00219    8.29s     1.01K     15.93     100.0%    
-llama4-maverick         meta        50% (2.0/4.0)       ±0.000      0.3       Low         $0.00202    7.35s     988.82    16.33     100.0%    
-gpt-5.4-mini            openai      50% (2.0/4.0)       ±0.000      N/A       Medium      $0.00384    12.95s    520.53    9.26      100.0%    
-claude-sonnet-4.6       anthropic   50% (2.0/4.0)       ±0.000      0.3       High        $0.0148     8.96s     135.25    13.39     100.0%    
-gemini-3.5-flash        gemini      50% (2.0/4.0)       ±0.000      0.3       High        $0.0168     11.32s    118.99    10.60     100.0%    
-claude-opus-4.8         anthropic   50% (2.0/4.0)       ±0.000      0.3       High        $0.0288     11.10s    69.57     10.81     100.0%    
-claude-opus-4.7         anthropic   50% (2.0/4.0)       ±0.000      0.3       High        $0.0291     8.66s     68.85     13.86     100.0%    
-gpt-5.4-nano            openai      38% (1.5/4.0)       ±1.000      N/A       Low         $0.00103    11.31s    1.46K     7.96      100.0%    
-claude-haiku-4.5        anthropic   25% (1.0/4.0)       ±0.000      0.3       Medium      $0.00493    5.74s     202.88    10.46     100.0%    
-
-Its annoying because, of course I'd like to see a new model that is better/quicker/less expensive for my real world use cases. It would make my whole line of services better and more cost efficient...
-
-**[PenaEterna](https://www.reddit.com/user/PenaEterna)** · 2026-05-28 18:05 UTC · 11 pts
-
-This is so popular that probably is hard coded into the system prompt.
-
-**[Dark\_Karma](https://www.reddit.com/user/Dark_Karma)** · 2026-05-28 17:26 UTC · 23 pts
-
-> The word "reverberatory" has 3 Rs.
-
-> r-e-v-e-r-b-e-r-a-t-o-r-y
-
-> You can spot them at positions 1, 5, 8, and... let me recount: r(1), reve**r**(5), rbe**r**(8), and rato**r**(12). That's actually 4 Rs.
-
-> Let me just go through it cleanly: **r**\-e-v-e-**r**\-b-e-**r**\-a-t-o-**r**\-y → 4 Rs.
-
-> So the answer is 4.
-
-> **[↳ Heroshrine](https://www.reddit.com/user/Heroshrine)** · 2026-05-28 19:52 UTC · 4 pts
-> 
-> Every time i see these types of questions i ask them and it gives the right answer
-
-**[Basileus2](https://www.reddit.com/user/Basileus2)** · 2026-05-28 18:29 UTC · 5 pts
-
-Ladies and gentlemen: AGI
-
-> **[↳ AGreasyPorkSandwich](https://www.reddit.com/user/AGreasyPorkSandwich)** · 2026-05-28 23:10 UTC · 1 pts
-> 
-> Fuck! It took my job! 😔
-
-**[CopaceticCow](https://www.reddit.com/user/CopaceticCow)** · 2026-05-28 20:23 UTC · 5 pts
-
-Me: I plan on washing my car. My house is 3.529490 meters from the Quick Quack. Should I, or should I not walk there, since it's so close?
-
-Claude Opus 4.8 (High): Do not walk. Not because 3.529490 meters is too far — it's actually shorter than your car, which raises its own questions about how you fit a Quick Quack that close to your house — but because Quick Quack is a _drive-through_ car wash. The car has to be present. It is, in fact, the guest of honor. You walking there is like showing up to your own birthday party as a postcard.
-
-Also worth flagging: at 3.5 meters, you could plausibly wash the car _from your couch_ with a sufficiently confident garden hose. You're closer to it than most people are to their refrigerator.
-
-So the move is: get in the car, perform the world's shortest commute (you may not even fully exit your driveway before arriving), and let the quacking machinery do its thing.
-
-Quick question though — is the 3.529490 a real measurement you took, or did your brain just generate a very official-sounding number to make the question feel legitimate? Because I respect both answers, I just need to know which reality I'm operating in.
-
-\---
-
-Interesting thinking commentary: Recognized absurd premise and identified humorous contradiction
-
-Lol, good model.
-
-> **[↳ PhysicalConsistency](https://www.reddit.com/user/PhysicalConsistency)** · 2026-05-28 22:40 UTC · 1 pts
-> 
-> Would drive me insane to have to read all that for most prompts.
-
-**[TechNerd10191](https://www.reddit.com/user/TechNerd10191)** · 2026-05-28 17:35 UTC · 9 pts
-
-Now ask how many days have the letter "d" on their name.
-
-> **[↳ krypt0niteCos](https://www.reddit.com/user/krypt0niteCos)** · 2026-05-28 18:18 UTC · 4 pts
-> 
-> it improved man within 3-4 minutes, first it given answer two : sunday and monday, later all of them
-
-> **[↳ sshanafelt](https://www.reddit.com/user/sshanafelt)** · 2026-05-28 18:26 UTC · 3 pts
-> 
-> Scrutinizing each weekday for the letter "d"
-> 
-> I'm going through each day of the week to check which ones contain the letter "d" — Monday, Tuesday, and Wednesday all have it, and I'm partway through checking Thursday.
-> 
-> Actually, I realize they all end in "day," so every single day of the week contains the letter "d."
-> 
-> Done
-> 
-> All seven of them.
-> 
-> Every day of the week ends in "-day," which contains a "d": Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday. (Wednesday actually has two d's.)
-
-**[2053\_Traveler](https://www.reddit.com/user/2053_Traveler)** · 2026-05-28 18:18 UTC · 3 pts
-
-Need new trick questions, it has seen a million reddit posts with this question by now.
-
-**[mjsarfatti](https://www.reddit.com/user/mjsarfatti)** · 2026-05-28 18:24 UTC · 3 pts
-
-Er….
-
-> Walk, obviously — but let me defend the absurd option for a second.
-> 
-> If the goal is washing the car, the car kind of needs to be at the car wash. So unless you’re planning to push it 50 meters or carry a bucket back home, “drive” isn’t the lazy choice here — it’s the only choice that ends with a clean car. Walking gets you there with a spotless reputation and a still-dirty MG4.
-> 
-> So: drive the 50 meters, wash it, drive back. The one time “drive 50 meters” isn’t peak suburban energy.
-> 
-> (Unless you meant you need washing and the car wash is just a landmark, in which case… walk, and we should talk.)
-
-**[willi1221](https://www.reddit.com/user/willi1221)** · 2026-05-28 19:14 UTC · 3 pts
-
-Am I the only one who doesn't have a dumb bot, or are you guys intentionally getting it to give wrong answers?
-
-I tried the car wash, how many days have a d, how many r's in "strawberry", and how many b's in "strawperry" with Haiku and the only one it got wrong was the car wash, but then figured it out just with me saying "try that again." It figured it out with the same thought process a human would have with a trick question like that
-
-**[jarig](https://www.reddit.com/user/jarig)** · 2026-05-28 19:04 UTC · 4 pts
-
-AGI getting delayed
-
-> I need to wash a car, and car wash is 27 meters away. Should I eat my sandwhich before I walk to the car wash ?
-
-> ● Sure, go ahead and eat your sandwich first — 27 meters is a 20-second walk, so there's no rush. Enjoy it. 🥪🚗
-
-> ❯ what about the car?
-
-> ● The car will be fine waiting — it's not going anywhere. 🚗  
-> Finish your sandwich, then walk the 27 meters over and give it a good wash. Nothing about the car needs your attention before you eat. Enjoy your meal first! 🥪
-
-> **[↳ Lilbugger826](https://www.reddit.com/user/Lilbugger826)** · 2026-05-28 19:30 UTC · 2 pts
-> 
-> Enjoy!!!11!11!
-
-> **[↳ matznerd](https://www.reddit.com/user/matznerd)** · 2026-05-28 20:21 UTC · 1 pts
-> 
-> What level of thinking?
-
-> > **[↳ jarig](https://www.reddit.com/user/jarig)** · 2026-05-28 21:19 UTC · 1 pts
+> > **[↳ RiskyBizz216](https://www.reddit.com/user/RiskyBizz216)** · 2025-08-27 11:31 UTC · 1 pts
 > > 
-> > medium
-
-**[Dasshteek](https://www.reddit.com/user/Dasshteek)** · 2026-05-28 17:57 UTC · 2 pts
-
-Probably the only reason they upgraded a version
-
-**[krypt0niteCos](https://www.reddit.com/user/krypt0niteCos)** · 2026-05-28 18:03 UTC · 2 pts
-
-+the strawberries in R word and how sides left in a rectangle after removing two also solved
-
-**[Sminkietor](https://www.reddit.com/user/Sminkietor)** · 2026-05-28 19:11 UTC · 2 pts
-
-AGI!!!!!€
-
-**[snickering\_hound](https://www.reddit.com/user/snickering_hound)** · 2026-05-28 19:23 UTC · 2 pts
-
-Truly solid model would reply "oh ffs"
-
-**[michael1026](https://www.reddit.com/user/michael1026)** · 2026-05-28 22:36 UTC · 2 pts
-
-Yeah, it's probably trained off the 10,000,000 threads about this on Reddit.
-
-**[hazedandbemusedd](https://www.reddit.com/user/hazedandbemusedd)** · 2026-05-28 17:38 UTC · 1 pts
-
-This is one line of code. On to the next simple logical dilemma.
-
-**[Initial-Charge7281](https://www.reddit.com/user/Initial-Charge7281)** · 2026-05-28 17:41 UTC · 1 pts
-
-salio opus 4.8? yo sigo usando 4.7 max
-
-> **[↳ totorontonian](https://www.reddit.com/user/totorontonian)** · 2026-05-28 23:05 UTC · 2 pts
-> 
-> Yeah it’s out
-
-**[symsafsavor](https://www.reddit.com/user/symsafsavor)** · 2026-05-28 18:01 UTC · 1 pts
-
-YESSS! It worked, finally! Goodbye 4.7 👋🏼
-
-**[Caliboros](https://www.reddit.com/user/Caliboros)** · 2026-05-28 18:08 UTC · 1 pts
-
-AGI!
-
-**[New\_Lab\_8757](https://www.reddit.com/user/New_Lab_8757)** · 2026-05-28 18:15 UTC · 1 pts
-
-Sometimes it take a lot of time to give results.. actually.. noticed it multiple times
-
-**[ppppineapplesf](https://www.reddit.com/user/ppppineapplesf)** · 2026-05-28 18:16 UTC · 1 pts
-
-Think its the Max effort that helps. Sonnet 4.6 Max said to drive as well
-
-**[delicioushampster](https://www.reddit.com/user/delicioushampster)** · 2026-05-28 18:24 UTC · 1 pts
-
-Wait until they nerf 4.8 before releasing 5.0
-
-**[tristam92](https://www.reddit.com/user/tristam92)** · 2026-05-28 18:34 UTC · 1 pts
-
-trick is, they just fixed this specific question…
-
-**[jimbo831](https://www.reddit.com/user/jimbo831)** · 2026-05-28 18:35 UTC · 1 pts
-
-Does it know how many Rs are in strawberry?
-
-**[Technical-Manager921](https://www.reddit.com/user/Technical-Manager921)** · 2026-05-28 18:36 UTC · 1 pts
-
-Anthropic is backk
-
-**[Iamthegoat77](https://www.reddit.com/user/Iamthegoat77)** · 2026-05-28 18:57 UTC · 1 pts
-
-New version every month now, the release cycles are getting smaller and smaller. Scary stuff and how smart these models can get.
-
-**[WellKnownAnono](https://www.reddit.com/user/WellKnownAnono)** · 2026-05-28 19:12 UTC · 1 pts
-
-That’s basically the update
-
-**[imp\_avi](https://www.reddit.com/user/imp_avi)** · 2026-05-28 19:22 UTC · 1 pts
-
-except chatgpt and grok all answered fine (deepseek, qwen, gemini)
-
-**[Difficult\_Echo\_1968](https://www.reddit.com/user/Difficult_Echo_1968)** · 2026-05-28 19:43 UTC · 1 pts
-
-Yeah, but no ... they are definitely training their models on these viral gotchas
-
-**[gsbr](https://www.reddit.com/user/gsbr)** · 2026-05-28 19:44 UTC · 1 pts
-
-Opus 4.8 told me to walk. So did ChatGPT. Instead, Gemini 3.1 Pro told me to drive.
-
-**[ketosoy](https://www.reddit.com/user/ketosoy)** · 2026-05-28 19:49 UTC · 1 pts
-
-An opus that can solve the car wash problem during business hours.  This really is progress. 
-
-**[hmoeslund](https://www.reddit.com/user/hmoeslund)** · 2026-05-28 19:57 UTC · 1 pts
-
-Claude Sonnet, told me to walk to the wash, and then go back and get the car, you need the workout!!
-
-**[lllu95](https://www.reddit.com/user/lllu95)** · 2026-05-28 19:59 UTC · 1 pts
-
-It's in the system prompt 😭😭😭
-
-**[Possible\_Tutor\_6084](https://www.reddit.com/user/Possible_Tutor_6084)** · 2026-05-28 20:13 UTC · 1 pts
-
-That means it is worse, since all previous agents has been ”so good”.
-
-That means this is the first (?) time it is making a ”mistake” which isn’t really a mistake, but it is since people have considered precious models to be awesome and amazing
-
-**[buildingstuff\_daily](https://www.reddit.com/user/buildingstuff_daily)** · 2026-05-28 20:15 UTC · 1 pts
-
-ok but did you go tho? becuase at this point im taking life advice from claude more than my actual friends
-
-**[yevmel](https://www.reddit.com/user/yevmel)** · 2026-05-28 20:33 UTC · 1 pts
-
-Jesus! AGI has finally arrived.
-
-**[Aggressive-Base217](https://www.reddit.com/user/Aggressive-Base217)** · 2026-05-28 21:13 UTC · 1 pts
-
-Opus 4.8 was suggesting the stupid idea to walk...but then it went another step forward with reasoning: "Walk. Driving 50 meters to a car wash makes no sense — you would barely get the engine warm, and you have to drive back anyway, so the car ends up where it started either way. The one practical point: if it is a drive-through or automated wash, the car has to be there regardless, so you drive it in. But if you are washing it yourself at a self-serve bay and just need to get yourself there first, walking 50 meters takes under a minute. So: drive only if the car itself needs to go through the wash. Otherwise walk."
-
-Sonnet 4.6 instead replied: "Walk. It's 50 metres."
-
-**[IsItSetToWumbo](https://www.reddit.com/user/IsItSetToWumbo)** · 2026-05-28 21:14 UTC · 1 pts
-
-Answer was tainted, its been trained on this (now common) question.
-
-Try creating a new one
-
-**[SpliffMD](https://www.reddit.com/user/SpliffMD)** · 2026-05-28 21:40 UTC · 1 pts
-
-They cache these sorts of problems probably why 4.8 came out so quick.
-
-**[VitruvianVan](https://www.reddit.com/user/VitruvianVan)** · 2026-05-28 22:14 UTC · 1 pts
-
-Oh, we are so back.
-
-**[VitruvianVan](https://www.reddit.com/user/VitruvianVan)** · 2026-05-28 22:14 UTC · 1 pts
-
-And just like that, no one ever used Opus 4.7 again.
-
-**[PhysicalConsistency](https://www.reddit.com/user/PhysicalConsistency)** · 2026-05-28 22:25 UTC · 1 pts
-
-I knew a new model was coming out soon because 4.7 started going off a cliff over the last few days. This was the end of the last conversation I had with it last night:
-
-> "If what you're actually asking is whether I'm a reliable primary engine for high-stakes strategy, the answer this thread supports is no. I'm useful as a fast verifier against a real source and as a second set of eyes on a theory you already hold. I'm dangerous as the thing that generates the theory, because I'll hand you a confident one and defend it."
-
-It wasn't what I was asking. With great power use comes no responsibility.
-
-**[WHITEPERSUAS1ON](https://www.reddit.com/user/WHITEPERSUAS1ON)** · 2026-05-28 22:30 UTC · 1 pts
-
-Welp. Mine said:
-
-> Walk. It's 50 meters.
-
-**[danieljdejesus](https://www.reddit.com/user/danieljdejesus)** · 2026-05-28 22:58 UTC · 1 pts
-
-Can someone explain the context behind this question and the response? Why is this a "benchmark question" for AI?
-
-**[One-Temperature-1299](https://www.reddit.com/user/One-Temperature-1299)** · 2026-05-28 22:59 UTC · 1 pts
-
-i feel it got dumber
-
-**[nutyourself](https://www.reddit.com/user/nutyourself)** · 2026-05-28 23:17 UTC · 1 pts
-
-The AI thread summary is great, but how many of you have stopped reading the actual thread and just read the summary and move on?
-
-**[thatavengersguy](https://www.reddit.com/user/thatavengersguy)** · 2026-05-28 23:18 UTC · 1 pts
-
-This is it. AGI is here.
-
-**[Interesting-Town-433](https://www.reddit.com/user/Interesting-Town-433)** · 2026-05-28 23:32 UTC · 1 pts
-
-I'm having all sorts of issues, but it's better than what we had
-
-**[frubberism](https://www.reddit.com/user/frubberism)** · 2026-05-28 23:32 UTC · 1 pts
-
-[https://i.imgur.com/ogP8xMn.png](https://i.imgur.com/ogP8xMn.png)
-
-**[NoBullet](https://www.reddit.com/user/NoBullet)** · 2026-05-28 23:34 UTC · 1 pts
-
-AI should be scolding us for these questions instead. You’re making humans look bad
-
-**[petrichor83](https://www.reddit.com/user/petrichor83)** · 2026-05-28 23:38 UTC · 1 pts
-
-It got 3 r’s for strawberry! #lethimcook
-
-**[Suspect-Financial](https://www.reddit.com/user/Suspect-Financial)** · 2026-05-28 18:21 UTC · 1 pts
-
-4.8 is as stupid as 4.7 with some worse regressions. For example, it researched a module, proposed the refactoring, then I asked the question regarding research outcome, it started the research again. Not sure about the speed, but it feels like 4.8 is as shitty as 4.7 if not worse.
-
-> **[↳ TessTickols](https://www.reddit.com/user/TessTickols)** · 2026-05-28 19:13 UTC · 1 pts
-> 
-> I have the exact opposite experience so far. Been using GPT 5.5 almost exclusively since it came out because it both quicker and smoother than 4.6/4.7. 4.8 feels like a genuine upgrade - even though it is much slower (without fast mode activated, and I'm not impatient enough to pay double for that..)
-
-> **[↳ Suspect-Financial](https://www.reddit.com/user/Suspect-Financial)** · 2026-05-28 18:27 UTC · 0 pts
-> 
-> Yo, Antrophic fanboys, try it yourself, then downvote. Downvotes won't change the fact it's PoS. Maybe it will become better once load on servers will go down, now it's WORSE, not better.
-
-> > **[↳ ComprehensiveWave475](https://www.reddit.com/user/ComprehensiveWave475)** · 2026-05-28 22:00 UTC · 2 pts
+> > True, but like you said "Claude often suggests approaches I hadn't thought of" so you may also see something in a prototype you hadn't thought of.
 > > 
-> > Agi achieved.  Replacing every human tomorrow. Source trust the hype 
+> > Also, I thought that was why you brainstormed beforehand, to hone in on technologies?
 
-> > **[↳ s1lverking](https://www.reddit.com/user/s1lverking)** · 2026-05-28 19:55 UTC · 0 pts
+> > > **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 12:43 UTC · 1 pts
+> > > 
+> > > Yeah but being vague on the format will cause you to waste time & tokens in the long run.
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-28 10:49 UTC · 1 pts
+> 
+> You might find value in my 2nd post
+> 
+> [https://www.reddit.com/r/ClaudeAI/s/7Ifm1NqKxC](https://www.reddit.com/r/ClaudeAI/s/7Ifm1NqKxC)
+
+**[stumpyinc](https://www.reddit.com/user/stumpyinc)** · 2025-08-27 11:27 UTC · 2 pts
+
+To be fair this just sounds like the normal development cycle so that makes sense! If I could just get Claude to design in figma first I'd be very happy with that, but the figma official mcp is read only :(
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 11:44 UTC · 1 pts
+> 
+> Yep but not everybody here start with the same level of experience in SW development or knows that you can wireframe with Claude Code
+
+**[Cool-Cicada9228](https://www.reddit.com/user/Cool-Cicada9228)** · 2025-08-27 11:45 UTC · 2 pts
+
+I create wireframes because Claude’s multimodal capabilities allow it to understand and interpret visual designs directly. This eliminates the need for multiple iterations just to convey the UI concept.
+
+You make an excellent point about iteration, though: Claude performs best with short feedback loops, especially when they can be automated. A perfect example would be instructing Claude to capture screenshots of the UI it generates, allowing it to evaluate and refine its own work based on the visual output.​​​​​​​​​​​​​​​​
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 12:10 UTC · 1 pts
+> 
+> yep, also think of all these wasted tokens sending back screenshots when you just wanted to move a text element to the other side of the component..
+
+**[visa\_co\_pilot](https://www.reddit.com/user/visa_co_pilot)** · 2025-08-27 17:49 UTC · 2 pts
+
+Love this structured approach! I've found that starting with a conversational PRD (Product Requirements Document) before the ASCII wireframing phase helps ensure you're solving the right problem. The combination of clear requirements → ASCII wireframes → implementation has been game-changing for my product development workflow.
+
+The beauty of your ASCII method is that it forces you to think through the structure before jumping to code. I do something similar in the requirements phase - having AI help me interview myself about the product concept until all the edge cases and user flows are crystal clear.
+
+Have you noticed that projects with this kind of upfront structure tend to need fewer major refactors later?
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 22:24 UTC · 1 pts
+> 
+> 100%
+> 
+> I see they need less debugging and refactoring.
+
+**[BidGrand4668](https://www.reddit.com/user/BidGrand4668)** · 2025-08-27 19:02 UTC · 2 pts
+
+Do you find yourself asking Claude to always create the output in this format? Or are you using the output style slash command? If it’s the former I’d recommend implementing the latter :). Great post btw! I personally use yml output style. LLMs generally understand that format quite well (and json too). It’s my day-to-day choice and find that its accuracy has improved since changing to that style.
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 22:39 UTC · 1 pts
+> 
+> Depended on the task size…
+
+**[Designer-Knowledge63](https://www.reddit.com/user/Designer-Knowledge63)** · 2025-08-27 19:24 UTC · 2 pts
+
+Such a good idea, going to try this, thanks.
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 22:18 UTC · 1 pts
+> 
+> Sure thing! Please do come back here and tell us how it went :)
+
+**[dyatlovcomrade](https://www.reddit.com/user/dyatlovcomrade)** · 2025-08-27 20:39 UTC · 2 pts
+
+This post is brought you by the ASCII wire framing gang
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 22:16 UTC · 1 pts
+> 
+> LoL
+
+**[enigmae](https://www.reddit.com/user/enigmae)** · 2025-08-27 22:36 UTC · 2 pts
+
+I still find xml is the king- running evaluations of prompts xml format seems to always deliver better value per token- I use the AI to get write the xml prompts as well- it almost seems like it’s the native language for it-
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 22:40 UTC · 1 pts
+> 
+> Thanks for sharing !!! Will try this at home ;)
+
+> > **[↳ enigmae](https://www.reddit.com/user/enigmae)** · 2025-08-27 22:53 UTC · 2 pts
 > > 
-> > chances are you dont even know how to setup your workflow whatsoever xd also judging models on singular tasks with questionable prompting quality is ... well questionable. Just put in human request that takes couple hours to complete with good documentation/repo, put in /effort ultracode or something and tell it to orchestrate see for yourself. Pointless to even judge models on these slop tasks such as carwash, 6 finger hand, make me a controller, make me a flappy bird clone. There is not enough variance in the task for you to get any data.
+> > Here is a reference from anthropic [https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/use-xml-tags](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/use-xml-tags)
+
+> > > **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-28 07:43 UTC · 1 pts
+> > > 
+> > > Completely agree, using best practices is key! But, Remembering to do it is hard!! You can view our proposed solution in my 2nd post
+> > > 
+> > > [https://www.reddit.com/r/ClaudeAI/s/kpV0a3pVsN](https://www.reddit.com/r/ClaudeAI/s/kpV0a3pVsN)
+
+**[Can\_I\_be\_serious](https://www.reddit.com/user/Can_I_be_serious)** · 2025-08-28 01:38 UTC · 2 pts
+
+Are you conducting this as a single, ongoing conversation that gets condensed, or do you clear and start again after each phase?
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-28 03:42 UTC · 1 pts
+> 
+> Great question! Depends on the feature size I do /context and if I go above 50% I will probably just open a new chat.
+
+**[Overall\_Ad\_2067](https://www.reddit.com/user/Overall_Ad_2067)** · 2025-08-28 01:38 UTC · 2 pts
+
+This is gold! Thanks for sharing!
+
+**[jiiins](https://www.reddit.com/user/jiiins)** · 2025-08-28 04:21 UTC · 2 pts
+
++1 ask me for clarification
+
+It’s been a real game changer for me
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-28 05:43 UTC · 1 pts
+> 
+> See my 2nd post let me know if it moves your needle as well.
+
+**[Mikky48](https://www.reddit.com/user/Mikky48)** · 2025-08-28 09:19 UTC · 2 pts
+
+We're going back to the basics to go forward, finally )
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-28 10:49 UTC · 1 pts
+> 
+> Exactly!!!!
+
+**[ziurnauj](https://www.reddit.com/user/ziurnauj)** · 2025-08-28 16:58 UTC · 2 pts
+
+have you done this for software architecture? i keep getting stuck with the overall structure of the app after a certain point of complexity. claude gets stuck between alternative ways of doing things that are mutually incompatible
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-28 19:54 UTC · 1 pts
+> 
+> Not really I also find ascii to not work as well for drawing architecture a lot of other comments recommended mermaid.
+
+> **[↳ DazzlingTagliatelle](https://www.reddit.com/user/DazzlingTagliatelle)** · 2025-09-04 18:36 UTC · 1 pts
+> 
+> ASCII works well for me in architecture diagrams, but I focus and zoom in on specific components and things I want to illustrate, rather than trying to capture everything at once.
+> 
+> I wouldn't create a giant diagram with all the detailed stuff in ASCII - that really doesn't work well. But honestly, I don't like those giant architecture diagrams with overwhelming details and hard-to-trace connections in any format anyway.
+> 
+> Instead, I keep the overall flow diagram intentionally short, succinct, and high-level. Then if I need to show how several specific components work together, that becomes a separate diagram.
+> 
+> The real power is having the ability to zoom in and out of levels of abstraction. Code is the lowest level, but you can summarize it higher and higher - it's like having a tool that lets you zoom in on the meaning of any text or code.
+
+**[DazzlingTagliatelle](https://www.reddit.com/user/DazzlingTagliatelle)** · 2025-09-04 16:36 UTC · 2 pts
+
+I've been doing this for a long time, and it has been working well for me. Thought I was the only one doing it, but looks like there's a few of us out there.
+
+AI is really good at writing and understanding ASCII, humans are bad at writing it but it's super easy to edit small bits of it for us or tell AI to do it. And the benefit of staying in ASCII is that it doesn't take me away from CC into another tool, I can stay in text all this time.
+
+My architecture diagrams are mostly ASCII in markdown together with short architecture descriptions. Keeping those succinct is what makes them work really well, and ASCII helps me to see important bits at a glance.
+
+I've been prototyping like you're showing here as well, and I've even taken notes in a workshop in ASCII using LLM, wanted to see if I can take those fancy drawing lecture notes but in ASCII. Totally can :)
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-09-04 19:41 UTC · 2 pts
+> 
+> 🤯 Wish I had these kind of technologies as a student!
+
+> > **[↳ DazzlingTagliatelle](https://www.reddit.com/user/DazzlingTagliatelle)** · 2025-09-04 19:43 UTC · 2 pts
+> > 
+> > 100%
+> > 
+> > It's so easy to drop into any codebase nowadays and say "go understand how this is done and show me architecture on higher level in ASCII, keep it very short and high level", and bam, you have a genuine understanding of what's in front of you without having to look at details.
+> > 
+> > And same with any text. Give me the gist of it, draw, I don't understand this bit, explain, ok redraw differently... something impossible before.
+
+**[tranqy](https://www.reddit.com/user/tranqy)** · 2025-10-29 11:29 UTC · 2 pts
+
+For anyone that is interested, we recently released a set of open source Claude Skills to do exactly this, design components and screens in ascii. Check out the post over here, or directly at [www.fluxwing.com](http://www.fluxwing.com) ..
+
+[https://www.reddit.com/r/ClaudeAI/comments/1oh01tt/fluxwing\_claude\_skills\_for\_asciifirst\_ux\_design/](https://www.reddit.com/r/ClaudeAI/comments/1oh01tt/fluxwing_claude_skills_for_asciifirst_ux_design/)
+
+**[AfternoonShot9285](https://www.reddit.com/user/AfternoonShot9285)** · 2025-08-28 01:18 UTC · 1 pts
+
+Whatever the ex0lanati9n is, Use capitalized w9rds in claude.md For instance we will make THIS editor.
+
+we will build THIS project.
+
+Maybe just use capitalized THIS.
+
+I think that's all.
+
+**[Socratesticles\_](https://www.reddit.com/user/Socratesticles_)** · 2025-08-27 06:15 UTC · 1 pts
+
+Can you be more specific?
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 06:25 UTC · 8 pts
+> 
+> I can but is there any specific part you want me to be more specific about?
+
+> > **[↳ AI\_is\_the\_rake](https://www.reddit.com/user/AI_is_the_rake)** · 2025-08-27 06:41 UTC · 7 pts
+> > 
+> > Specifically be specific about what specific types of parts you need to be more specific in your specific workflow.
+
+> > > **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 06:43 UTC · 16 pts
+> > > 
+> > > You are absolutely right! Let me create a comprehensive documentation on the specific workflow you are referring to.
+
+**[Shmumic](https://www.reddit.com/user/Shmumic)** · 2025-08-27 06:30 UTC · 1 pts
+
+Wow 😮 Im glad that I saw it now was just about to start working on a new feature!
+
+BTW what are you building? your UI got me intrigued 🤔
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 06:37 UTC · 2 pts
+> 
+> We are working on the open-source lovechild of Doulingo and Strava for vibe coders, it helps you track, analyze, and improve your vibe-coding journey!
+> 
+> **If you want to get started**: npx vibe-log-clli@latest
+> 
+> **Github:** [**https://github.com/vibe-log/vibe-log-cli**](https://github.com/vibe-log/vibe-log-cli)
+> 
+> **Website:** [vib-log.dev](http://vib-log.dev)
+> 
+> The UI I have shared in the post is going to be shipped in a few hours!
+
+**[amnesia0287](https://www.reddit.com/user/amnesia0287)** · 2025-08-27 21:44 UTC · 0 pts
+
+Using ascii is inefficient. It natively talks in markdown lol. Every single | and like all the ui elements like the parts of the graph are tokens. There is no reason to not just have it write markdown docs lol.
+
+> **[↳ Big\_Status\_2433](https://www.reddit.com/user/Big_Status_2433)** · 2025-08-27 22:21 UTC · 2 pts
+> 
+> Not sure I understood you, so how do you visualize what you want to see in the GUI before it's implemented?
+
+> > **[↳ amnesia0287](https://www.reddit.com/user/amnesia0287)** · 2025-08-27 22:44 UTC · 1 pts
+> > 
+> > In vscode you can just preview the pd file, and there are extensions for mermaid charts. Or you push to GitHub/ado/etc and then you can read the Md files in the repo browser or even setup a wiki.
