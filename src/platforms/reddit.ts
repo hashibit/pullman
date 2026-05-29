@@ -12,7 +12,12 @@
 
 import puppeteer, { type Page } from "puppeteer";
 import * as cheerio from "cheerio";
+import { homedir } from "os";
+import { join } from "path";
 import type { Article, Platform } from "./index.js";
+
+/** Dedicated Chrome profile for Reddit — persists cookies across runs. */
+const PROFILE_DIR = join(homedir(), ".pullman", "chrome-profile-reddit");
 
 const USER_AGENT =
   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36";
@@ -29,11 +34,15 @@ export const redditPlatform: Platform = {
     const browser = await puppeteer.launch({
       headless,
       channel: "chrome",
+      userDataDir: PROFILE_DIR,
       args: [
         "--disable-blink-features=AutomationControlled",
         "--no-sandbox",
         "--disable-infobars",
         "--window-size=1440,900",
+        "--no-first-run",
+        "--no-default-browser-check",
+        "--disable-default-apps",
       ],
     });
 
@@ -50,8 +59,11 @@ export const redditPlatform: Platform = {
       await page.setViewport({ width: 1440, height: 900 });
       console.log(`Navigating to ${url}`);
 
-      await page.goto(url, { waitUntil: "networkidle2", timeout: 30000 });
-      await page.waitForSelector("shreddit-post", { timeout: 15000 });
+      await page.goto(url, { waitUntil: "networkidle2", timeout: 45000 }).catch(() => {
+        // networkidle2 can hang with a fresh userDataDir profile (analytics keep firing).
+        // Swallow the timeout and let waitForSelector decide if the page is usable.
+      });
+      await page.waitForSelector("shreddit-post", { timeout: 20000 });
 
       await loadAllComments(page);
 
